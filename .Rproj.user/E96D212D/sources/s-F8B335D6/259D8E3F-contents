@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 14 July 2021`"
+date: "Last updated on 25 August 2021`"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -37,9 +37,7 @@ library(geojsonio)
 library(geojsonR)
 library(stringr)
 library(zoo)
-library(rsconnect)
 
-#rsconnect::setAccountInfo(name='svdang', token='E39892D36CC48847CE380A4EC2BF47FE', secret='oEn9JO0It2jjr/FQCDxI0UJdUwDIPVMndMEPgLHo')
 
 
 
@@ -828,20 +826,3 @@ If there is an issue regarding the data or you have suggestions for better writt
 
 
 Thank you for your feedback and enjoy the dashboard.
-
-
-
-
-
-
-```{r eval = FALSE}
-
-rsconnect::deployApp("COVID19_Flex.Rmd")
-rsconnect::showLogs()
-
-
-
-```
-
-
-
