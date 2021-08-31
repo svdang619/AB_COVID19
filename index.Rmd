@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 25 August 2021`"
+date: "Last updated on 31 August 2021`"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -18,10 +18,12 @@ output:
 library(flexdashboard)
 library(readr)
 library(ggplot2)
-library(dplyr)
+library(dplyr) 
+library(shinyWidgets)
+library(dygraphs) #ts plot
 library(lubridate)
 library(plotly)
-library(shinyWidgets)
+library(DT)
 library(colourpicker)
 library(leaflet)
 library(leaflet.extras)
@@ -267,7 +269,7 @@ leaflet_geojson_date <- leaflet_geojson$date
 
 
 numeric <- as.numeric(leaflet_geojson$active_cases)
-colbins <- c(0,20,50,80,100,150,200)
+colbins <- c(0,50,100,150,200,250)
 col <- colorBin("Greens", domain = as.numeric(leaflet_geojson$active_cases), bins = colbins)
 
 
@@ -576,49 +578,36 @@ leaflet(Vacc_poly) %>% addProviderTiles("Esri")%>% setView(lng = -115, lat = 55,
 ```
 
 
+
+### Total Doses Administered: last updated  `r max(as_date(Vaccine_Progress$date, format = "%d%b%Y"))`
+
 ```{r}
-Vaccine_Progress_summ_get <- GET("https://data.edmonton.ca/resource/7a6m-7deb.json?$limit=200")
-Vaccine_Progress_summ <- fromJSON(rawToChar(Vaccine_Progress_summ_get$content))
+Vaccine_Progress_cum <- Vaccine_Progress %>% group_by(date) %>% summarise(dose1 = sum(dose_1), dose2 = sum(dose_2), total = sum(total_doses_administered))
 
-
-Vaccine_Progress_summ$date <- as_date(Vaccine_Progress_summ$date)
-Vaccine_Progress_summ <- Vaccine_Progress_summ %>% mutate_at(c("doses_administered",
-                                                             "doses_per_100k",
-                                                             "fully_immunized",
-                                                             "adverse_events"),
-                                                             as.numeric) %>% replace(is.na(.), 0)
+Vaccine_Progress_cum %>% plot_ly(x = ~date, y = ~total) %>% add_lines()
 
 
 ```
 
-### Total Doses Administered: last updated  `r max(as_date(Vaccine_Progress_summ$date, format = "%d%b%Y"))`
+### Vaccine Coverage
 
 ```{r}
-Vaccine_Progress_summ %>% plot_ly(x = ~date, y = ~doses_administered, hoverinfo = "all") %>% add_lines()
-```
+library(xts)
+Vaccine_Progress$date <- as.Date(Vaccine_Progress$date)
+Vaccine_coverage_xts <- Vaccine_Progress %>% group_by(date) %>% summarise(Dose1 = mean(percent_pop_1_plus_dose), Dose2 = mean(percent_pop_fully_immunized))
+Vaccine_coverage_xts <- as.xts(Vaccine_coverage_xts[,-1], order.by = Vaccine_coverage_xts$date)
+Vaccine_coverage_xts <- na.approx(Vaccine_coverage_xts)
 
 
-
-```{r}
-
-### 
-Vaccine_Progress_cum <- Vaccine_Progress_summ %>% group_by(date) %>% mutate(one_dose_cum = doses_administered - fully_immunized, perc_1 = one_dose_cum/doses_administered*100, perc_2 = fully_immunized/doses_administered*100, one_dose = one_dose_cum-lag(one_dose_cum))
-
-Vaccine_Progress_cum <- Vaccine_Progress_cum %>% mutate(one_dose = one_dose_cum - lag(one_dose_cum))
-
-
-
-Vacc_prog_barplot <- Vaccine_Progress_cum %>% plot_ly(x = ~date, y = ~one_dose, name = "1 Dose", type = "bar")
-Vacc_prog_barplot <- Vacc_prog_barplot %>% add_trace(y=~fully_immunized, name = "2 Doses")
-Vacc_prog_barplot <- Vacc_prog_barplot %>% layout(yaxis = list(title = "Count"), barmode = "stack")
-Vacc_prog_barplot %>% layout(bargap = 0)
-
+dygraph(Vaccine_coverage_xts, main = "Vaccine Coverage") %>%
+  dyAxis("x", drawGrid = FALSE) %>%
+  dyAxis("y", drawGrid =  TRUE, label = "Vaccine Coverage (%)") %>%
+  dySeries("Dose1", label = "1 Dose") %>%
+  dySeries("Dose2", label = "2 Doses") %>%
+  dyRangeSelector()
 
 
 ```
-
-
-
 
 
 
@@ -727,54 +716,9 @@ observe({
 
 ```
 
+Testing {.storyboard}
+============================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-Raw Data
-=============================================================================
-
-Selection Sidebar {.sidebar}
-----------------------------------------------------------------------------
-```{r eval = FALSE}
-selectInput("datasetdownload", "Datasets", choices = c("COVID-19 AB Zone Cases", "COVID-19 cases by geography", "COVID-19 AB Vaccine Progress", "COVID-19 AB Vaccine Progress by Geography", "COVID-19 Alberta day-by-day", "COVID-19 Alberta Historical Data"))
-
-
-downloadButton("downloadData", "Download")
-
-
-datasetdownloadInput <- reactive({
-  switch(input$datasetdownload,
-         "COVID-19 AB Zone Cases" = COVID19,
-         "COVID-19 cases by geography" = Vaccine,
-         "COVID-19 AB Vaccine Progress" = Vaccine_Progress,
-         "COVID-19 AB Vaccine Progress by Geography" = Vaccine_ages,
-         "COVID-19 Alberta day-by-day" = Hospital,
-         "COVID-19 Alberta Historical Data" = Historical)
-})
-
-
-
-
-
-```
-
-Raw COVID19{800}
---------------------------------------------------------------------------
-```{r eval = FALSE}
-renderDataTable({
-  DT::datatable(datasetdownloadInput() ,extensions = 'Buttons', options = list(dom = 'Bfrtip', buttons = c("copy","csv","excel","pdf","print"), pageLength = 20))
-})
-```
 
 
 About
@@ -815,6 +759,27 @@ The dashboard will be continuously updated and new plots will be formed over tim
 - Cumulative bar plot of COVID-19 vaccinations over time in Alberta
 - Cumulative bar plot of COVID-19 vaccinations grouped by age over time in Alberta
 - Allow users to select a date on the Introduction page
+
+
+Data
+--------------------------------------------------------------
+
+#### Raw Data
+Raw data used to create the dashboard can be found here:
+
+- [COVID-19 Alberta Zone Cases](https://data.edmonton.ca/Community-Services/COVID-19-in-Alberta-Cases-by-Zone/jmcu-tz8y)
+
+- [COVID-19 Alberta Cases by Geography](https://data.edmonton.ca/Community-Services/COVID-19-in-Alberta-Current-cases-by-local-geograp/ix8f-s9xp)
+
+- [COVID-19 Alberta Vaccine Progress](https://data.edmonton.ca/Externally-Sourced-Datasets/COVID-19-in-Alberta-Vaccination-Progress-by-Zone/d43f-8ikp)
+
+- [COVID-19 Alberta Vaccination Progress by Geography](https://data.edmonton.ca/Externally-Sourced-Datasets/COVID-19-in-Alberta-Vaccination-Progress-by-Local-/tgzq-jumt)
+
+- [COVID-19 Alberta Day by Day](https://data.edmonton.ca/Community-Services/COVID-19-in-Alberta-Day-by-day/gxqm-z6fa)
+
+- [COVID-19 Alberta Case History by Geography](https://data.edmonton.ca/Externally-Sourced-Datasets/COVID-19-in-Alberta-Case-History-by-Municipality-a/rrjc-ssaw)
+
+
 
 
 Contact
