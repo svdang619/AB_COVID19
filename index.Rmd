@@ -38,10 +38,10 @@ library(httr)
 library(geojsonio)
 library(geojsonR)
 library(stringr)
+library(reshape2) #melt
 library(zoo)
 
-
-
+`%notin%` <- Negate(`%in%`)
 
 #COVID-19 Cases https://www.alberta.ca/stats/covid-19-alberta-statistics.htm#data-export
 
@@ -143,6 +143,7 @@ Hospital <- Hospital %>% mutate_at(c("Confirmed_Cases",
                                      "ICU", 
                                      "Deaths", 
                                      "Rate_Cases"), as.numeric)
+
 
 
                     
@@ -398,7 +399,7 @@ Chart1
 ### Lab Positivity Rate in Alberta
 
 ```{r eval = TRUE}
-`%notin%` <- Negate(`%in%`)
+
 
 
 #Disclaimer: Absence of data for "Unknown" interferes with calculations and will be removed
@@ -716,8 +717,145 @@ observe({
 
 ```
 
-Testing {.storyboard}
+Testing
 ============================================================
+
+Row
+-------------------------------------------------------------
+
+
+### Lab Positivity Rate in Alberta
+
+```{r eval = TRUE}
+
+
+#Disclaimer: Absence of data for "Unknown" interferes with calculations and will be removed
+
+# Positivity Rate
+
+Pos_Rate <- Hospital %>% filter(Location %notin% "Unknown") %>% na.omit() %>% group_by(Date) %>% summarise(Tests_sum = sum(Tests), avg_pos = mean(Test_pos_rate))
+
+Pos_Rate$Date <-  as.Date(Pos_Rate$Date)
+
+
+# Rolling mean
+
+rolling_mean_7 <- rollmean(Pos_Rate$avg_pos, k = 7, fill = NA)
+
+
+Chart2 <- Pos_Rate %>% 
+  plot_ly(x = ~Date, y = ~avg_pos, name = "Positivity Rate", type = "scatter", mode = "lines",
+          line = list(width = 4),
+          hoverinfo = "text", text = ~paste(
+    "Date:", Date, "<br>",
+    "Tests:", Tests_sum, "<br>",
+    "Pos Rate (%):", avg_pos
+  ))
+
+Chart2 <- Chart2 %>% add_trace(y = ~rolling_mean_7, name = "Rolling mean (7 days)", mode = "lines")
+Chart2 <- Chart2 %>% layout(title = "Lab Positivity Rate",
+                            xaxis = list(title = "Date", tickangle = 45),
+                            yaxis = list(title = "Positivity Rate (%)"))
+
+Chart2
+
+
+
+```
+
+
+
+### Cumulative lab testing by age and gender
+
+```{r}
+
+testing_get <- GET("https://data.edmonton.ca/resource/ypc6-7cu6.json?$limit=10000")
+testing <- fromJSON(rawToChar(testing_get$content))
+
+testing$date <- as_date(testing$date)
+testing$age <- as.factor(testing$age)
+testing <- testing %>% mutate_at(c(
+                                   "count_female",
+                                   "percent_female",
+                                   "count_male",
+                                   "percent_male",
+                                   "count_unknown",
+                                   "percent_unknown",
+                                   "count_all",
+                                   "percent_all"), as.numeric)
+
+testing <- rename(testing, Female = count_female, Male = count_male, Unknown = count_unknown)
+
+testing_agegender_cum <- testing %>% group_by(age) %>% select(date, age, Female, Male, Unknown) %>% filter(age %notin% "All" & date == max(date))
+
+
+testing_agegender_cum <- melt(testing_agegender_cum)
+testing_agegender_cum <- testing_agegender_cum %>% filter(variable %notin% "date")
+
+
+testing_agegender_cum_plot <- ggplot(testing_agegender_cum, aes(x = age, y= value, fill = variable)) + 
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~variable) +
+  theme_classic()+
+  scale_y_continuous(expand = expansion(mult = c(0,.1))) +
+  scale_x_discrete(guide = guide_axis(check.overlap = 1)) +
+  xlab("Age Group") +
+  ylab("Count") +
+  ggtitle("Number of COVID-19 lab tests in Alberta by age group facetted by gender") +
+  theme(axis.title.x = element_text(margin = margin(10,0,0,0))) + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(angle = 45, hjust= 1)) + 
+  theme(axis.title.x = element_blank())
+  
+
+ggplotly(testing_agegender_cum_plot)
+
+
+
+```
+
+Row
+----------------------------------------------------
+
+### Positivity Rate by zone
+
+```{r}
+
+Pos_Rate_Zone <- Hospital %>% filter(Location %notin% "Unknown" & Location %notin% "Alberta") %>% group_by(Date, Location) %>% summarise(Tests_sum = sum(Tests), avg_pos = mean(Test_pos_rate))
+
+Pos_Rate_Zone<- Pos_Rate_Zone %>% group_by(Location) %>% mutate(rollmean = round(rollapply(avg_pos, 7, mean, fill =NA),2))
+
+
+Pos_Rate_Zone_plot <- ggplot(Pos_Rate_Zone) +
+  geom_line(aes(x = Date, y = avg_pos)) +
+  geom_line(aes(x = Date, y=rollmean, color =  Location))+
+  facet_grid(Location~.) +
+  labs(title = "Positivity Rate in Alberta by Zone", xlab = "Date", y = "Percent Positive") +
+  theme_bw() +
+  theme(legend.position = "none") +
+  theme(strip.text.y = element_text(size = 7)) +
+  theme(panel.grid.major.x = element_blank())
+
+
+
+ggplotly(Pos_Rate_Zone_plot, dynamicTicks = TRUE) %>% layout(hovermode = "X")
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
