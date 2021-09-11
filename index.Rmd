@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 31 August 2021`"
+date: "Last updated on 10 September 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -12,34 +12,29 @@ output:
     vertical_layout: fill
 
 ---
-
 ```{r Global setup, include=FALSE}
-
-library(flexdashboard)
-library(readr)
-library(ggplot2)
-library(dplyr) 
-library(shinyWidgets)
-library(dygraphs) #ts plot
-library(lubridate)
-library(plotly)
-library(DT)
 library(colourpicker)
-library(leaflet)
-library(leaflet.extras)
-library(sf)
-library(fontawesome)
-library(mapview)
-library(purrr)
 library(crosstalk)
-library(tidyr)
-library(jsonlite)
-library(httr)
+library(DT)
+library(dygraphs)
+library(flexdashboard)
+library(fontawesome)
 library(geojsonio)
 library(geojsonR)
-library(stringr)
-library(reshape2) #melt
+library(httr)
+library(htmltools)
+library(jsonlite)
+library(leaflet.extras)
+library(leaflet)
+library(lubridate)
+library(mapview)
+library(plotly)
+library(reshape2)
+library(sf)
+library(tidyverse)
 library(zoo)
+
+
 
 `%notin%` <- Negate(`%in%`)
 
@@ -270,7 +265,7 @@ leaflet_geojson_date <- leaflet_geojson$date
 
 
 numeric <- as.numeric(leaflet_geojson$active_cases)
-colbins <- c(0,50,100,150,200,250)
+colbins <- c(0,100,200,300,400)
 col <- colorBin("Greens", domain = as.numeric(leaflet_geojson$active_cases), bins = colbins)
 
 
@@ -398,7 +393,7 @@ Chart1
 
 ### Lab Positivity Rate in Alberta
 
-```{r eval = TRUE}
+```{r eval = FALSE}
 
 
 
@@ -592,8 +587,9 @@ Vaccine_Progress_cum %>% plot_ly(x = ~date, y = ~total) %>% add_lines()
 
 ### Vaccine Coverage
 
-```{r}
+```{r eval = FALSE}
 library(xts)
+
 Vaccine_Progress$date <- as.Date(Vaccine_Progress$date)
 Vaccine_coverage_xts <- Vaccine_Progress %>% group_by(date) %>% summarise(Dose1 = mean(percent_pop_1_plus_dose), Dose2 = mean(percent_pop_fully_immunized))
 Vaccine_coverage_xts <- as.xts(Vaccine_coverage_xts[,-1], order.by = Vaccine_coverage_xts$date)
@@ -767,7 +763,7 @@ Chart2
 
 ### Cumulative lab testing by age and gender
 
-```{r}
+```{r eval = TRUE}
 
 testing_get <- GET("https://data.edmonton.ca/resource/ypc6-7cu6.json?$limit=10000")
 testing <- fromJSON(rawToChar(testing_get$content))
@@ -819,7 +815,7 @@ Row
 
 ### Positivity Rate by zone
 
-```{r}
+```{r eval = TRUE}
 
 Pos_Rate_Zone <- Hospital %>% filter(Location %notin% "Unknown" & Location %notin% "Alberta") %>% group_by(Date, Location) %>% summarise(Tests_sum = sum(Tests), avg_pos = mean(Test_pos_rate))
 
