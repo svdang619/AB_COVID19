@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 10 September 2021"
+date: "Last updated on 15 September 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -272,7 +272,7 @@ col <- colorBin("Greens", domain = as.numeric(leaflet_geojson$active_cases), bin
 leaflet(leaflet_geojson) %>% addProviderTiles("Esri")%>% setView(lng = -115, lat = 55, zoom = 5) %>% 
   setMaxBounds(lng1 = -120, lng2 = -110, lat1 = 52, lat2 = 57) %>% 
   
-  addPolygons( fillOpacity = 1,
+  addPolygons( fillOpacity = 0.5,
                weight = 0.7,
                color = "green", 
                fillColor = ~col(as.numeric(leaflet_geojson$active_cases)),
@@ -391,42 +391,21 @@ Chart1
 ```
 
 
-### Lab Positivity Rate in Alberta
-
-```{r eval = FALSE}
 
 
+### Active Cases by age as of  `r max(as_date(Hospital$Date, format = "%B %d, %Y"))`
 
-#Disclaimer: Absence of data for "Unknown" interferes with calculations and will be removed
+```{r eval = TRUE}
 
-# Positivity Rate
-
-Pos_Rate <- Hospital %>% filter(Location %notin% "Unknown") %>% na.omit() %>% group_by(Date) %>% summarise(Tests_sum = sum(Tests), avg_pos = mean(Test_pos_rate))
-
-Pos_Rate$Date <-  as.Date(Pos_Rate$Date)
+active_by_age <- COVID19 %>% filter(Case_Status == "Active") %>% group_by(Age_Group) %>% select(Date_reported, Age_Group, Gender) %>% summarise(Active_COVID19_Cases = n())
 
 
-# Rolling mean
-
-rolling_mean_7 <- rollmean(Pos_Rate$avg_pos, k = 7, fill = NA)
-
-
-Chart2 <- Pos_Rate %>% 
-  plot_ly(x = ~Date, y = ~avg_pos, name = "Positivity Rate", type = "scatter", mode = "lines",
-          line = list(width = 4),
-          hoverinfo = "text", text = ~paste(
-    "Date:", Date, "<br>",
-    "Tests:", Tests_sum, "<br>",
-    "Pos Rate (%):", avg_pos
-  ))
-
-Chart2 <- Chart2 %>% add_trace(y = ~rolling_mean_7, name = "Rolling mean (7 days)", mode = "lines")
-Chart2 <- Chart2 %>% layout(title = "Lab Positivity Rate",
-                            xaxis = list(title = "Date", tickangle = 45),
-                            yaxis = list(title = "Positivity Rate (%)"))
-
-Chart2
-
+active_by_age %>% 
+  plot_ly(x = ~Age_Group, y = ~Active_COVID19_Cases) %>% 
+  add_bars() %>%
+  layout(title = "Active Cases",
+         xaxis = list(title = ""),
+         yaxis = list(title = "COVID-19 Cases (n)"))
 
 
 ```
@@ -460,10 +439,11 @@ ggplotly(Chart3)
 
 
 
+
 ```
 
 
-### Active Cases as of `r format(Sys.time()-86400, '%B %d, %Y')`
+### Active Cases by zone as of `r max(as_date(Hospital$Date, format = "%B %d, %Y"))`
 ```{r eval = TRUE}
 
 Active <- Hospital %>% filter(Date == max(Date), Location %notin% "Alberta") %>% group_by(Location)
@@ -587,7 +567,7 @@ Vaccine_Progress_cum %>% plot_ly(x = ~date, y = ~total) %>% add_lines()
 
 ### Vaccine Coverage
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 library(xts)
 
 Vaccine_Progress$date <- as.Date(Vaccine_Progress$date)
@@ -605,6 +585,47 @@ dygraph(Vaccine_coverage_xts, main = "Vaccine Coverage") %>%
 
 
 ```
+
+
+### Vaccine Coverage from `r min(as_date(Vaccine_Progress$date, format = "%d%b%Y"))` to `r max(as_date(Vaccine_Progress$date, format = "%d%b%Y"))`
+```{r}
+
+
+Vaccine_cum <- Vaccine_Progress %>% 
+  group_by(date) %>% 
+  select(date, dose_1, dose_2, population)%>% 
+  summarise_all(sum) %>% 
+  mutate(percent_1_dose = round(dose_1/population*100,2), percent_2_dose = round(dose_2/population * 100,2)) %>% 
+  complete(date = seq.Date(min(date), max(date), by = "day"))
+
+
+Vaccine_cum <- as.xts(Vaccine_cum[,-1], order.by = Vaccine_cum$date)
+Vaccine_cum <- na.approx(Vaccine_cum) #Fill in date gaps (usually over the weekend/holidays)
+
+
+Vaccine_cum_plot <- plot_ly(data = data.frame(date = index(Vaccine_cum), percent_1 = Vaccine_cum[,4,drop=T]),
+                            x = ~date,
+                            y = ~percent_1,
+                            type = "bar",
+                            name = "At least one dose")
+
+Vaccine_cum_plot <- Vaccine_cum_plot %>% 
+  add_trace(data = data.frame(date = index(Vaccine_cum), percent_2 = Vaccine_cum[,5,drop=T]),
+                                                   x = ~date,
+                                                   y = ~percent_2,
+                                                   type = "bar",
+                                                   name = "Fully Vaccinated")
+
+Vaccine_cum_plot <- Vaccine_cum_plot %>% layout(xaxis = list(title = "Date"),
+                                                yaxis = list(title = "Vaccine Coverage (%)"),
+                                                title = "Vaccine Coverage in Alberta")
+                            
+
+Vaccine_cum_plot
+```
+
+
+
 
 
 
@@ -839,7 +860,49 @@ ggplotly(Pos_Rate_Zone_plot, dynamicTicks = TRUE) %>% layout(hovermode = "X")
 
 
 ```
+Forecasting
+============================================================
 
+```{r eval = FALSE}
+library(fpp2)
+
+COVID_19_TS <- COVID19 %>% group_by(Date_reported) %>% count()
+COVID_19_TS <- ts(COVID_19_TS[,2], start = 2020-03-06)
+
+autoplot(COVID_19_TS)
+frequency(COVID_19_TS) #Daily
+ggAcf(COVID_19_TS)
+
+Box.test(COVID_19_TS, lag =1, type = "Ljung" )
+
+autoplot(naive(COVID_19_TS, h= 10))
+
+COVID_19_TS %>% naive() %>% checkresiduals()
+
+train <- subset(COVID_19_TS, end = 500)
+naive_covid <- naive(train, h = 54)
+mean_covid <- meanf(train, h = 54)
+ses_covid <- ses(train, h = 54)
+#Find the smallest RMSE which equates to greater accuracy .. naive vs ses
+accuracy(naive_covid, COVID_19_TS)
+accuracy(mean_covid, COVID_19_TS)
+accuracy(ses_covid, COVID_19_TS)
+
+# Time series cross-validation
+tscv <- tsCV(COVID_19_TS, forecastfunction = ses, h = 54)
+mse <- colMeans(tscv^2, na.rm = TRUE)
+data.frame(h = 1:54, MSE = mse) %>% ggplot(aes(x = h , y = MSE)) + geom_point()
+
+
+fit <- auto.arima(COVID_19_TS)
+checkresiduals(fit)
+
+autoplot(COVID_19_TS)
+BoxCox.lambda(COVID_19_TS)
+COVID_19_TS %>% BoxCox(lambda = 0.1983581) %>% checkresiduals()
+
+
+```
 
 
 
@@ -925,3 +988,14 @@ If there is an issue regarding the data or you have suggestions for better writt
 
 
 Thank you for your feedback and enjoy the dashboard.
+
+
+
+
+
+
+
+
+
+
+
