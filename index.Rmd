@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 15 September 2021"
+date: "Last updated on 22 September 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -992,6 +992,16 @@ Thank you for your feedback and enjoy the dashboard.
 
 
 
+
+```{r}
+#For git Run:
+
+#git init
+#git pull
+#git push
+#git commit -m "...."
+#git push -u origin main
+```
 
 
 
