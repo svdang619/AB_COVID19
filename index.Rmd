@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 23 September 2021"
+date: "Last updated on 3 October 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -914,13 +914,16 @@ Worldwide
 
 library(rworldmap)
 map <- getMap() 
+Global_Data <- read_csv("C:/Users/steve/Downloads/Global_Data.csv")
+
 global_data <- Global_Data
 
 countries_longlat<- data.frame(map@data$NAME, map@data$LON, map@data$LAT)
 colnames(countries_longlat) <- c("Name", "Lon", "Lat")
 
 global_data <- global_data %>% full_join(countries_longlat, "Name")
-
+global_data <- SpatialPointsDataFrame(global_data)
+global_data <- as("global_data.shp", Class = "Spatial")
 
 countries_longlat %>% leaflet() %>% addTiles()
 
