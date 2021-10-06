@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 5 October 2021"
+date: "Last updated on 6 October 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -915,19 +915,30 @@ COVID_19_TS %>% BoxCox(lambda = 0.1983581) %>% checkresiduals()
 
 Worldwide
 ===================================================
-```{r}
-print("Under Construction")
+
+Row
+----------------------------------------------------
+```{r eval = FALSE}
+gauge("World cases")
+gauge("World deaths")
+
 ```
 
 
 
 
 
-```{r eval = TRUE}
+
+Row {data-height = 200}
+-------------------------------------------------------
+
+
+```{r eval = TRUE, fig.height= 5, fig.width= 20}
 World_Coordinates <- read_csv("World_Coordinates.csv")
 
 #CSV data are obtained from https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
 #Dashboard will be updated weekly
+#Recovery data discontinued on Aug 5, 2021
 
 ts_confirmed_global <- read_csv("time_series_covid19_confirmed_global.csv")
 ts_confirmed_global <- as.data.frame(ts_confirmed_global)
@@ -937,19 +948,42 @@ colnames(ts_confirmed_global) <- c("Province_State", "Country_Region", "Lat", "L
 #-----------------------------------------------------------------------------------------------------
 ts_deaths_global <- read_csv("time_series_covid19_deaths_global.csv")
 ts_deaths_global <- as.data.frame(ts_deaths_global)
-ts_deaths_global <- ts_confirmed_global %>% select(1:4, tail(names(.),1))
+ts_deaths_global <- ts_deaths_global %>% select(1:4, tail(names(.),1))
 colnames(ts_deaths_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths")
 
-#-----------------------------------------------------------------------------------------------------
-ts_recovered_global <- read_csv("time_series_covid19_recovered_global.csv")
-ts_recovered_global <- as.data.frame(ts_recovered_global)
-ts_recovered_global <- ts_confirmed_global %>% select(1:4, tail(names(.),1))
-colnames(ts_recovered_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths")
 
 
 
+leaflet(World_Coordinates) %>% 
+  
+  setView(2,5,3) %>%
+  
+  addProviderTiles("Esri.NatGeoWorldMap",options = providerTileOptions(noWrap = TRUE), group = "Light")%>%
+  addCircleMarkers(radius = 5,
+                   color = "red",
+                   popup = ~paste0("<b>Date: 4 October 2021 </b>", "<br>", 
+                                   "<b>Country/Region: </b>",World_Coordinates$Country_Region, "<br>",
+                                 "<b>Province/State: </b>", World_Coordinates$Province_State, "<br>",
+                                 "<b>Confirmed Cases: </b>",prettyNum(ts_confirmed_global$Confirmed, big.mark = ",") , "<br>",
+                                 "<b>Deaths: </b>", prettyNum(ts_deaths_global$Deaths, big.mark = ","))) %>%
+  
+  addEasyButton(easyButton(icon = "fa-globe", 
+                           title = "Zoom to Level 1",
+                           onClick = JS("function(btn,map){ map.setZoom(1); }"))) %>%
+  
+  addEasyButton(easyButton(icon="fa-crosshairs", 
+                           title = "Locate Me", 
+                           onClick = JS("function(btn, map) {map.locate({setView: true});}"))) %>%
+  
+  addMeasure(position = "bottomleft",
+             primaryLengthUnit = "kilometers",
+             primaryAreaUnit = "sqmeters",
+             activeColor = "#8d60b5",
+             completedColor = "#c280e8")
 
-leaflet(World_Coordinates, options = leafletOptions(worldCopyJump = TRUE))%>%  addProviderTiles("Esri.NatGeoWorldMap") %>% addCircleMarkers(popup = ~paste("", "Country or Region:", Country_Region,"", "", "Province or State", "", Province_State)) %>% setView(0,0,1)
+
+  
+ 
 
 
 ```
