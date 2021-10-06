@@ -260,7 +260,7 @@ leaflet_geojson <- geojsonio::geojson_read("https://data.edmonton.ca/resource/ix
 leaflet_geojson_date <- leaflet_geojson$date
 ```
 
-### Alberta Active Cases
+### Alberta Active Cases as of `r max(leaflet_geojson_date)`
 ```{r eval = TRUE}
 
 
@@ -393,7 +393,7 @@ Chart1
 
 
 
-### Active Cases by age
+### Active Cases by age as of `r max(as_date(Hospital$Date, format = "%B %d, %Y"))`
 
 ```{r eval = TRUE}
 
@@ -443,7 +443,7 @@ ggplotly(Chart3)
 ```
 
 
-### Active Cases by zone
+### Active Cases by zone as of `r max(as_date(Hospital$Date, format = "%B %d, %Y"))`
 ```{r eval = TRUE}
 
 Active <- Hospital %>% filter(Date == max(Date), Location %notin% "Alberta") %>% group_by(Location)
@@ -923,7 +923,7 @@ print("Under Construction")
 
 
 
-```{r eval = FALSE}
+```{r eval = TRUE}
 World_Coordinates <- read_csv("World_Coordinates.csv")
 
 #CSV data are obtained from https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
@@ -949,7 +949,7 @@ colnames(ts_recovered_global) <- c("Province_State", "Country_Region", "Lat", "L
 
 
 
-
+leaflet(World_Coordinates, options = leafletOptions(worldCopyJump = TRUE))%>%  addProviderTiles("Esri.NatGeoWorldMap") %>% addCircleMarkers(popup = ~paste("", "Country or Region:", Country_Region,"", "", "Province or State", "", Province_State)) %>% setView(0,0,1)
 
 
 ```
@@ -1044,6 +1044,7 @@ Thank you for your feedback and enjoy the dashboard.
 #git init
 #git pull
 #git push
+#git add *
 #git commit -m "...."
 #git push -u origin main
 ```
