@@ -1,0 +1,280 @@
+Province_State,Country_Region,Lat,Long,ISO_3166,Region_Code,Region_Name,Sub_region_Code,Sub_region_Name
+,Afghanistan,33.93911,67.709953,AFG,142,Asia,34,Southern Asia
+,Albania,41.1533,20.1683,ALB,150,Europe,39,Southern Europe
+,Algeria,28.0339,1.6596,DZA,2,Africa,15,Northern Africa
+,Andorra,42.5063,1.5218,AND,150,Europe,39,Southern Europe
+,Angola,-11.2027,17.8739,AGO,2,Africa,202,Sub-Saharan Africa
+,Antigua and Barbuda,17.0608,-61.7964,ATG,19,Americas,419,Latin America and the Caribbean
+,Argentina,-38.4161,-63.6167,ARG,19,Americas,419,Latin America and the Caribbean
+,Armenia,40.0691,45.0382,ARM,142,Asia,145,Western Asia
+Australian Capital Territory,Australia,-35.4735,149.0124,AUS,9,Oceania,53,Australia and New Zealand
+New South Wales,Australia,-33.8688,151.2093,AUS,9,Oceania,53,Australia and New Zealand
+Northern Territory,Australia,-12.4634,130.8456,AUS,9,Oceania,53,Australia and New Zealand
+Queensland,Australia,-27.4698,153.0251,AUS,9,Oceania,53,Australia and New Zealand
+South Australia,Australia,-34.9285,138.6007,AUS,9,Oceania,53,Australia and New Zealand
+Tasmania,Australia,-42.8821,147.3272,AUS,9,Oceania,53,Australia and New Zealand
+Victoria,Australia,-37.8136,144.9631,AUS,9,Oceania,53,Australia and New Zealand
+Western Australia,Australia,-31.9505,115.8605,AUS,9,Oceania,53,Australia and New Zealand
+,Austria,47.5162,14.5501,AUT,150,Europe,155,Western Europe
+,Azerbaijan,40.1431,47.5769,AZE,142,Asia,145,Western Asia
+,Bahamas,25.025885,-78.035889,BHS,19,Americas,419,Latin America and the Caribbean
+,Bahrain,26.0275,50.55,BHR,142,Asia,145,Western Asia
+,Bangladesh,23.685,90.3563,BGD,142,Asia,34,Southern Asia
+,Barbados,13.1939,-59.5432,BRB,19,Americas,419,Latin America and the Caribbean
+,Belarus,53.7098,27.9534,BLR,150,Europe,151,Eastern Europe
+,Belgium,50.8333,4.469936,BEL,150,Europe,155,Western Europe
+,Belize,17.1899,-88.4976,BLZ,19,Americas,419,Latin America and the Caribbean
+,Benin,9.3077,2.3158,BEN,2,Africa,202,Sub-Saharan Africa
+,Bhutan,27.5142,90.4336,BTN,142,Asia,34,Southern Asia
+,Bolivia,-16.2902,-63.5887,BOL,19,Americas,419,Latin America and the Caribbean
+,Bosnia and Herzegovina,43.9159,17.6791,BIH,150,Europe,39,Southern Europe
+,Botswana,-22.3285,24.6849,BWA,2,Africa,202,Sub-Saharan Africa
+,Brazil,-14.235,-51.9253,BRA,19,Americas,419,Latin America and the Caribbean
+,Brunei,4.5353,114.7277,BRN,142,Asia,35,South-eastern Asia
+,Bulgaria,42.7339,25.4858,BGR,150,Europe,151,Eastern Europe
+,Burkina Faso,12.2383,-1.5616,BFA,2,Africa,202,Sub-Saharan Africa
+,Burma,21.9162,95.956,MMR,142,Asia,35,South-eastern Asia
+,Burundi,-3.3731,29.9189,BDI,2,Africa,202,Sub-Saharan Africa
+,Cabo Verde,16.5388,-23.0418,CPV,2,Africa,202,Sub-Saharan Africa
+,Cambodia,11.55,104.9167,KHM,142,Asia,35,South-eastern Asia
+,Cameroon,3.848,11.5021,CMR,2,Africa,202,Sub-Saharan Africa
+Alberta,Canada,53.9333,-116.5765,CAN,19,Americas,21,Northern America
+British Columbia,Canada,53.7267,-127.6476,CAN,19,Americas,21,Northern America
+Diamond Princess,Canada,0,0,,,,,
+Grand Princess,Canada,0,0,,,,,
+Manitoba,Canada,53.7609,-98.8139,CAN,19,Americas,21,Northern America
+New Brunswick,Canada,46.5653,-66.4619,CAN,19,Americas,21,Northern America
+Newfoundland and Labrador,Canada,53.1355,-57.6604,CAN,19,Americas,21,Northern America
+Northwest Territories,Canada,64.8255,-124.8457,CAN,19,Americas,21,Northern America
+Nova Scotia,Canada,44.682,-63.7443,CAN,19,Americas,21,Northern America
+Nunavut,Canada,70.2998,-83.1076,CAN,19,Americas,21,Northern America
+Ontario,Canada,51.2538,-85.3232,CAN,19,Americas,21,Northern America
+Prince Edward Island,Canada,46.5107,-63.4168,CAN,19,Americas,21,Northern America
+Quebec,Canada,52.9399,-73.5491,CAN,19,Americas,21,Northern America
+Repatriated Travellers,Canada,,,CAN,19,Americas,21,Northern America
+Saskatchewan,Canada,52.9399,-106.4509,CAN,19,Americas,21,Northern America
+Yukon,Canada,64.2823,-135,CAN,19,Americas,21,Northern America
+,Central African Republic,6.6111,20.9394,CAF,2,Africa,202,Sub-Saharan Africa
+,Chad,15.4542,18.7322,TCD,2,Africa,202,Sub-Saharan Africa
+,Chile,-35.6751,-71.543,CHL,19,Americas,419,Latin America and the Caribbean
+Anhui,China,31.8257,117.2264,CHN,142,Asia,30,Eastern Asia
+Beijing,China,40.1824,116.4142,CHN,142,Asia,30,Eastern Asia
+Chongqing,China,30.0572,107.874,CHN,142,Asia,30,Eastern Asia
+Fujian,China,26.0789,117.9874,CHN,142,Asia,30,Eastern Asia
+Gansu,China,35.7518,104.2861,CHN,142,Asia,30,Eastern Asia
+Guangdong,China,23.3417,113.4244,CHN,142,Asia,30,Eastern Asia
+Guangxi,China,23.8298,108.7881,CHN,142,Asia,30,Eastern Asia
+Guizhou,China,26.8154,106.8748,CHN,142,Asia,30,Eastern Asia
+Hainan,China,19.1959,109.7453,CHN,142,Asia,30,Eastern Asia
+Hebei,China,39.549,116.1306,CHN,142,Asia,30,Eastern Asia
+Heilongjiang,China,47.862,127.7615,CHN,142,Asia,30,Eastern Asia
+Henan,China,37.8957,114.9042,CHN,142,Asia,30,Eastern Asia
+Hong Kong,China,22.3,114.2,HKG,142,Asia,30,Eastern Asia
+Hubei,China,30.9756,112.2707,CHN,142,Asia,30,Eastern Asia
+Hunan,China,27.6104,111.7088,CHN,142,Asia,30,Eastern Asia
+Inner Mongolia,China,44.0935,113.9448,CHN,142,Asia,30,Eastern Asia
+Jiangsu,China,32.9711,119.455,CHN,142,Asia,30,Eastern Asia
+Jiangxi,China,27.614,115.7221,CHN,142,Asia,30,Eastern Asia
+Jilin,China,43.6661,126.1923,CHN,142,Asia,30,Eastern Asia
+Liaoning,China,41.2956,122.6085,CHN,142,Asia,30,Eastern Asia
+Macau,China,22.1667,113.55,MAC,142,Asia,30,Eastern Asia
+Ningxia,China,37.2692,106.1655,CHN,142,Asia,30,Eastern Asia
+Qinghai,China,35.7452,95.9956,CHN,142,Asia,30,Eastern Asia
+Shaanxi,China,35.1917,108.8701,CHN,142,Asia,30,Eastern Asia
+Shandong,China,36.3427,118.1498,CHN,142,Asia,30,Eastern Asia
+Shanghai,China,31.202,121.4491,CHN,142,Asia,30,Eastern Asia
+Shanxi,China,37.5777,112.2922,CHN,142,Asia,30,Eastern Asia
+Sichuan,China,30.6171,102.7103,CHN,142,Asia,30,Eastern Asia
+Tianjin,China,39.3054,117.323,CHN,142,Asia,30,Eastern Asia
+Tibet,China,31.6927,88.0924,CHN,142,Asia,30,Eastern Asia
+Unknown,China,,,CHN,142,Asia,30,Eastern Asia
+Xinjiang,China,41.1129,85.2401,CHN,142,Asia,30,Eastern Asia
+Yunnan,China,24.974,101.487,CHN,142,Asia,30,Eastern Asia
+Zhejiang,China,29.1832,120.0934,CHN,142,Asia,30,Eastern Asia
+,Colombia,4.5709,-74.2973,COL,19,Americas,419,Latin America and the Caribbean
+,Comoros,-11.6455,43.3333,COM,2,Africa,202,Sub-Saharan Africa
+,Congo (Brazzaville),-0.228,15.8277,COG,2,Africa,202,Sub-Saharan Africa
+,Congo (Kinshasa),-4.0383,21.7587,COD,2,Africa,202,Sub-Saharan Africa
+,Costa Rica,9.7489,-83.7534,CRI,19,Americas,419,Latin America and the Caribbean
+,Cote d'Ivoire,7.54,-5.5471,CIV,2,Africa,202,Sub-Saharan Africa
+,Croatia,45.1,15.2,HRV,150,Europe,39,Southern Europe
+,Cuba,21.521757,-77.781167,CUB,19,Americas,419,Latin America and the Caribbean
+,Cyprus,35.1264,33.4299,CYP,142,Asia,145,Western Asia
+,Czechia,49.8175,15.473,CZE,150,Europe,151,Eastern Europe
+Faroe Islands,Denmark,61.8926,-6.9118,FRO,150,Europe,154,Northern Europe
+Greenland,Denmark,71.7069,-42.6043,GRL,19,Americas,21,Northern America
+,Denmark,56.2639,9.5018,DNK,150,Europe,154,Northern Europe
+,Diamond Princess,0,0,,,,,
+,Djibouti,11.8251,42.5903,DJI,2,Africa,202,Sub-Saharan Africa
+,Dominica,15.415,-61.371,DMA,19,Americas,419,Latin America and the Caribbean
+,Dominican Republic,18.7357,-70.1627,DOM,19,Americas,419,Latin America and the Caribbean
+,Ecuador,-1.8312,-78.1834,ECU,19,Americas,419,Latin America and the Caribbean
+,Egypt,26.820553,30.802498,EGY,2,Africa,15,Northern Africa
+,El Salvador,13.7942,-88.8965,SLV,19,Americas,419,Latin America and the Caribbean
+,Equatorial Guinea,1.6508,10.2679,GNQ,2,Africa,202,Sub-Saharan Africa
+,Eritrea,15.1794,39.7823,ERI,2,Africa,202,Sub-Saharan Africa
+,Estonia,58.5953,25.0136,EST,150,Europe,154,Northern Europe
+,Eswatini,-26.5225,31.4659,SWZ,2,Africa,202,Sub-Saharan Africa
+,Ethiopia,9.145,40.4897,ETH,2,Africa,202,Sub-Saharan Africa
+,Fiji,-17.7134,178.065,FJI,9,Oceania,54,Melanesia
+,Finland,61.92411,25.748151,FIN,150,Europe,154,Northern Europe
+French Guiana,France,3.9339,-53.1258,GUF,19,Americas,419,Latin America and the Caribbean
+French Polynesia,France,-17.6797,149.4068,PYF,9,Oceania,61,Polynesia
+Guadeloupe,France,16.265,-61.551,GLP,19,Americas,419,Latin America and the Caribbean
+Martinique,France,14.6415,-61.0242,MTQ,19,Americas,419,Latin America and the Caribbean
+Mayotte,France,-12.8275,45.166244,MYT,2,Africa,202,Sub-Saharan Africa
+New Caledonia,France,-20.904305,165.618042,NCL,9,Oceania,54,Melanesia
+Reunion,France,-21.1151,55.5364,REU,2,Africa,202,Sub-Saharan Africa
+Saint Barthelemy,France,17.9,-62.8333,BLM,19,Americas,419,Latin America and the Caribbean
+Saint Pierre and Miquelon,France,46.8852,-56.3159,SPM,19,Americas,21,Northern America
+St Martin,France,18.0708,-63.0501,MAF,19,Americas,419,Latin America and the Caribbean
+Wallis and Futuna,France,-14.2938,-178.1165,FRA,150,Europe,155,Western Europe
+,France,46.2276,2.2137,FRA,150,Europe,155,Western Europe
+,Gabon,-0.8037,11.6094,GAB,2,Africa,202,Sub-Saharan Africa
+,Gambia,13.4432,-15.3101,GMB,2,Africa,202,Sub-Saharan Africa
+,Georgia,42.3154,43.3569,GEO,142,Asia,145,Western Asia
+,Germany,51.165691,10.451526,DEU,150,Europe,155,Western Europe
+,Ghana,7.9465,-1.0232,GHA,2,Africa,202,Sub-Saharan Africa
+,Greece,39.0742,21.8243,GRC,150,Europe,39,Southern Europe
+,Grenada,12.1165,-61.679,GRD,19,Americas,419,Latin America and the Caribbean
+,Guatemala,15.7835,-90.2308,GTM,19,Americas,419,Latin America and the Caribbean
+,Guinea,9.9456,-9.6966,GIN,2,Africa,202,Sub-Saharan Africa
+,Guinea-Bissau,11.8037,-15.1804,GNB,2,Africa,202,Sub-Saharan Africa
+,Guyana,4.860416,-58.93018,GUY,19,Americas,419,Latin America and the Caribbean
+,Haiti,18.9712,-72.2852,HTI,19,Americas,419,Latin America and the Caribbean
+,Holy See,41.9029,12.4534,VAT,150,Europe,39,Southern Europe
+,Honduras,15.2,-86.2419,HND,19,Americas,419,Latin America and the Caribbean
+,Hungary,47.1625,19.5033,HUN,150,Europe,151,Eastern Europe
+,Iceland,64.9631,-19.0208,ISL,150,Europe,154,Northern Europe
+,India,20.593684,78.96288,IND,142,Asia,34,Southern Asia
+,Indonesia,-0.7893,113.9213,IDN,142,Asia,35,South-eastern Asia
+,Iran,32.427908,53.688046,IRN,142,Asia,34,Southern Asia
+,Iraq,33.223191,43.679291,IRQ,142,Asia,145,Western Asia
+,Ireland,53.1424,-7.6921,IRL,150,Europe,154,Northern Europe
+,Israel,31.046051,34.851612,ISR,142,Asia,145,Western Asia
+,Italy,41.87194,12.56738,ITA,150,Europe,39,Southern Europe
+,Jamaica,18.1096,-77.2975,JAM,19,Americas,419,Latin America and the Caribbean
+,Japan,36.204824,138.252924,JPN,142,Asia,30,Eastern Asia
+,Jordan,31.24,36.51,JOR,142,Asia,145,Western Asia
+,Kazakhstan,48.0196,66.9237,KAZ,142,Asia,143,Central Asia
+,Kenya,-0.0236,37.9062,KEN,2,Africa,202,Sub-Saharan Africa
+,Kiribati,-3.3704,-168.734,KIR,9,Oceania,57,Micronesia
+,"Korea, South",35.907757,127.766922,KOR,142,Asia,30,Eastern Asia
+,Kosovo,42.602636,20.902977,RKS,150,Europe,39,Southern Europe
+,Kuwait,29.31166,47.481766,KWT,142,Asia,145,Western Asia
+,Kyrgyzstan,41.20438,74.766098,KGZ,142,Asia,143,Central Asia
+,Laos,19.85627,102.495496,LAO,142,Asia,35,South-eastern Asia
+,Latvia,56.8796,24.6032,LVA,150,Europe,154,Northern Europe
+,Lebanon,33.8547,35.8623,LBN,142,Asia,145,Western Asia
+,Lesotho,-29.61,28.2336,LSO,2,Africa,202,Sub-Saharan Africa
+,Liberia,6.428055,-9.429499,LBR,2,Africa,202,Sub-Saharan Africa
+,Libya,26.3351,17.228331,LBY,2,Africa,15,Northern Africa
+,Liechtenstein,47.14,9.55,LIE,150,Europe,155,Western Europe
+,Lithuania,55.1694,23.8813,LTU,150,Europe,154,Northern Europe
+,Luxembourg,49.8153,6.1296,LUX,150,Europe,155,Western Europe
+,MS Zaandam,0,0,,,,,
+,Madagascar,-18.766947,46.869107,MDG,2,Africa,202,Sub-Saharan Africa
+,Malawi,-13.2543,34.3015,MWI,2,Africa,202,Sub-Saharan Africa
+,Malaysia,4.210484,101.975766,MYS,142,Asia,35,South-eastern Asia
+,Maldives,3.2028,73.2207,MDV,142,Asia,34,Southern Asia
+,Mali,17.570692,-3.996166,MLI,2,Africa,202,Sub-Saharan Africa
+,Malta,35.9375,14.3754,MLT,150,Europe,39,Southern Europe
+,Marshall Islands,7.1315,171.1845,MHL,9,Oceania,57,Micronesia
+,Mauritania,21.0079,-10.9408,MRT,2,Africa,202,Sub-Saharan Africa
+,Mauritius,-20.348404,57.552152,MUS,2,Africa,202,Sub-Saharan Africa
+,Mexico,23.6345,-102.5528,MEX,19,Americas,419,Latin America and the Caribbean
+,Micronesia,7.4256,150.5508,,,,,
+,Moldova,47.4116,28.3699,MDA,150,Europe,151,Eastern Europe
+,Monaco,43.7333,7.4167,MCO,150,Europe,155,Western Europe
+,Mongolia,46.8625,103.8467,MNG,142,Asia,30,Eastern Asia
+,Montenegro,42.708678,19.37439,MNE,150,Europe,39,Southern Europe
+,Morocco,31.7917,-7.0926,MAR,2,Africa,15,Northern Africa
+,Mozambique,-18.665695,35.529562,MOZ,2,Africa,202,Sub-Saharan Africa
+,Namibia,-22.9576,18.4904,NAM,2,Africa,202,Sub-Saharan Africa
+,Nepal,28.1667,84.25,NPL,142,Asia,34,Southern Asia
+Aruba,Netherlands,12.5211,-69.9683,ABW,19,Americas,419,Latin America and the Caribbean
+"Bonaire, Sint Eustatius and Saba",Netherlands,12.1784,-68.2385,BES,19,Americas,419,Latin America and the Caribbean
+Curacao,Netherlands,12.1696,-68.99,CUW,19,Americas,419,Latin America and the Caribbean
+Sint Maarten,Netherlands,18.0425,-63.0548,SXM,19,Americas,419,Latin America and the Caribbean
+,Netherlands,52.1326,5.2913,NLD,150,Europe,155,Western Europe
+Cook Islands,New Zealand,-21.2367,-159.7777,COK,9,Oceania,61,Polynesia
+,New Zealand,-40.9006,174.886,NZL,9,Oceania,53,Australia and New Zealand
+,Nicaragua,12.865416,-85.207229,NIC,19,Americas,419,Latin America and the Caribbean
+,Niger,17.607789,8.081666,NER,2,Africa,202,Sub-Saharan Africa
+,Nigeria,9.082,8.6753,NGA,2,Africa,202,Sub-Saharan Africa
+,North Macedonia,41.6086,21.7453,MKD,150,Europe,39,Southern Europe
+,Norway,60.472,8.4689,NOR,150,Europe,154,Northern Europe
+,Oman,21.512583,55.923255,OMN,142,Asia,145,Western Asia
+,Pakistan,30.3753,69.3451,PAK,142,Asia,34,Southern Asia
+,Palau,7.515,134.5825,PLW,9,Oceania,57,Micronesia
+,Panama,8.538,-80.7821,PAN,19,Americas,419,Latin America and the Caribbean
+,Papua New Guinea,-6.314993,143.95555,PNG,9,Oceania,54,Melanesia
+,Paraguay,-23.4425,-58.4438,PRY,19,Americas,419,Latin America and the Caribbean
+,Peru,-9.19,-75.0152,PER,19,Americas,419,Latin America and the Caribbean
+,Philippines,12.879721,121.774017,PHL,142,Asia,35,South-eastern Asia
+,Poland,51.9194,19.1451,POL,150,Europe,151,Eastern Europe
+,Portugal,39.3999,-8.2245,PRT,150,Europe,39,Southern Europe
+,Qatar,25.3548,51.1839,QAT,142,Asia,145,Western Asia
+,Romania,45.9432,24.9668,ROU,150,Europe,151,Eastern Europe
+,Russia,61.52401,105.318756,RUS,150,Europe,151,Eastern Europe
+,Rwanda,-1.9403,29.8739,RWA,2,Africa,202,Sub-Saharan Africa
+,Saint Kitts and Nevis,17.357822,-62.782998,KNA,19,Americas,419,Latin America and the Caribbean
+,Saint Lucia,13.9094,-60.9789,LCA,19,Americas,419,Latin America and the Caribbean
+,Saint Vincent and the Grenadines,12.9843,-61.2872,VCT,19,Americas,419,Latin America and the Caribbean
+,Samoa,-13.759,-172.1046,WSM,9,Oceania,61,Polynesia
+,San Marino,43.9424,12.4578,SMR,150,Europe,39,Southern Europe
+,Sao Tome and Principe,0.1864,6.6131,STP,2,Africa,202,Sub-Saharan Africa
+,Saudi Arabia,23.885942,45.079162,SAU,142,Asia,145,Western Asia
+,Senegal,14.4974,-14.4524,SEN,2,Africa,202,Sub-Saharan Africa
+,Serbia,44.0165,21.0059,SRB,150,Europe,39,Southern Europe
+,Seychelles,-4.6796,55.492,SYC,2,Africa,202,Sub-Saharan Africa
+,Sierra Leone,8.460555,-11.779889,SLE,2,Africa,202,Sub-Saharan Africa
+,Singapore,1.2833,103.8333,SGP,142,Asia,35,South-eastern Asia
+,Slovakia,48.669,19.699,SVK,150,Europe,151,Eastern Europe
+,Slovenia,46.1512,14.9955,SVN,150,Europe,39,Southern Europe
+,Solomon Islands,-9.6457,160.1562,SLB,9,Oceania,54,Melanesia
+,Somalia,5.152149,46.199616,SOM,2,Africa,202,Sub-Saharan Africa
+,South Africa,-30.5595,22.9375,ZAF,2,Africa,202,Sub-Saharan Africa
+,South Sudan,6.877,31.307,SSD,2,Africa,202,Sub-Saharan Africa
+,Spain,40.463667,-3.74922,ESP,150,Europe,39,Southern Europe
+,Sri Lanka,7.873054,80.771797,LKA,142,Asia,34,Southern Asia
+,Sudan,12.8628,30.2176,SDN,2,Africa,15,Northern Africa
+,Summer Olympics 2020,35.6491,139.7737,,,,,
+,Suriname,3.9193,-56.0278,SUR,19,Americas,419,Latin America and the Caribbean
+,Sweden,60.128161,18.643501,SWE,150,Europe,154,Northern Europe
+,Switzerland,46.8182,8.2275,CHE,150,Europe,155,Western Europe
+,Syria,34.802075,38.996815,SYR,142,Asia,145,Western Asia
+,Taiwan*,23.7,121,TWN,142,Asia,30,Eastern Asia
+,Tajikistan,38.861,71.2761,TJK,142,Asia,143,Central Asia
+,Tanzania,-6.369028,34.888822,TZA,2,Africa,202,Sub-Saharan Africa
+,Thailand,15.870032,100.992541,THA,142,Asia,35,South-eastern Asia
+,Timor-Leste,-8.874217,125.727539,TLS,142,Asia,35,South-eastern Asia
+,Togo,8.6195,0.8248,TGO,2,Africa,202,Sub-Saharan Africa
+,Trinidad and Tobago,10.6918,-61.2225,TTO,19,Americas,419,Latin America and the Caribbean
+,Tunisia,33.886917,9.537499,TUN,2,Africa,15,Northern Africa
+,Turkey,38.9637,35.2433,TUR,142,Asia,145,Western Asia
+,US,40,-100,USA,19,Americas,21,Northern America
+,Uganda,1.373333,32.290275,UGA,2,Africa,202,Sub-Saharan Africa
+,Ukraine,48.3794,31.1656,UKR,150,Europe,151,Eastern Europe
+,United Arab Emirates,23.424076,53.847818,ARE,142,Asia,145,Western Asia
+Anguilla,United Kingdom,18.2206,-63.0686,AIA,19,Americas,419,Latin America and the Caribbean
+Bermuda,United Kingdom,32.3078,-64.7505,BMU,19,Americas,21,Northern America
+British Virgin Islands,United Kingdom,18.4207,-64.64,VGB,19,Americas,419,Latin America and the Caribbean
+Cayman Islands,United Kingdom,19.3133,-81.2546,CYM,19,Americas,419,Latin America and the Caribbean
+Channel Islands,United Kingdom,49.3723,-2.3644,,150,Europe,154,Northern Europe
+Falkland Islands (Malvinas),United Kingdom,-51.7963,-59.5236,FLK,19,Americas,419,Latin America and the Caribbean
+Gibraltar,United Kingdom,36.1408,-5.3536,GIB,150,Europe,39,Southern Europe
+Isle of Man,United Kingdom,54.2361,-4.5481,IMN,150,Europe,154,Northern Europe
+Montserrat,United Kingdom,16.742498,-62.187366,MSR,19,Americas,419,Latin America and the Caribbean
+"Saint Helena, Ascension and Tristan da Cunha",United Kingdom,-7.9467,-14.3559,GBR,150,Europe,154,Northern Europe
+Turks and Caicos Islands,United Kingdom,21.694,-71.7979,TCA,19,Americas,419,Latin America and the Caribbean
+,United Kingdom,55.3781,-3.436,GBR,150,Europe,154,Northern Europe
+,Uruguay,-32.5228,-55.7658,URY,19,Americas,419,Latin America and the Caribbean
+,Uzbekistan,41.377491,64.585262,UZB,142,Asia,143,Central Asia
+,Vanuatu,-15.3767,166.9592,VUT,9,Oceania,54,Melanesia
+,Venezuela,6.4238,-66.5897,VEN,19,Americas,419,Latin America and the Caribbean
+,Vietnam,14.058324,108.277199,VNM,142,Asia,35,South-eastern Asia
+,West Bank and Gaza,31.9522,35.2332,PSE,142,Asia,145,Western Asia
+,Yemen,15.552727,48.516388,YEM,142,Asia,145,Western Asia
+,Zambia,-13.133897,27.849332,ZMB,2,Africa,202,Sub-Saharan Africa
+,Zimbabwe,-19.015438,29.154857,ZWE,2,Africa,202,Sub-Saharan Africa

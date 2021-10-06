@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 3 October 2021"
+date: "Last updated on 5 October 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -260,7 +260,7 @@ leaflet_geojson <- geojsonio::geojson_read("https://data.edmonton.ca/resource/ix
 leaflet_geojson_date <- leaflet_geojson$date
 ```
 
-### Alberta Active Cases as of `r max(leaflet_geojson_date)`
+### Alberta Active Cases
 ```{r eval = TRUE}
 
 
@@ -393,7 +393,7 @@ Chart1
 
 
 
-### Active Cases by age as of  `r max(as_date(Hospital$Date, format = "%B %d, %Y"))`
+### Active Cases by age
 
 ```{r eval = TRUE}
 
@@ -443,7 +443,7 @@ ggplotly(Chart3)
 ```
 
 
-### Active Cases by zone as of `r max(as_date(Hospital$Date, format = "%B %d, %Y"))`
+### Active Cases by zone
 ```{r eval = TRUE}
 
 Active <- Hospital %>% filter(Date == max(Date), Location %notin% "Alberta") %>% group_by(Location)
@@ -863,6 +863,11 @@ ggplotly(Pos_Rate_Zone_plot, dynamicTicks = TRUE) %>% layout(hovermode = "X")
 Forecasting
 ============================================================
 
+```{r}
+print("Under Construction")
+```
+
+
 ```{r eval = FALSE}
 library(fpp2)
 
@@ -910,22 +915,40 @@ COVID_19_TS %>% BoxCox(lambda = 0.1983581) %>% checkresiduals()
 
 Worldwide
 ===================================================
+```{r}
+print("Under Construction")
+```
+
+
+
+
+
 ```{r eval = FALSE}
+World_Coordinates <- read_csv("World_Coordinates.csv")
 
-library(rworldmap)
-map <- getMap() 
-Global_Data <- read_csv("C:/Users/steve/Downloads/Global_Data.csv")
+#CSV data are obtained from https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
+#Dashboard will be updated weekly
 
-global_data <- Global_Data
+ts_confirmed_global <- read_csv("time_series_covid19_confirmed_global.csv")
+ts_confirmed_global <- as.data.frame(ts_confirmed_global)
+ts_confirmed_global <- ts_confirmed_global %>% select(1:4, tail(names(.),1))
+colnames(ts_confirmed_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Confirmed")
 
-countries_longlat<- data.frame(map@data$NAME, map@data$LON, map@data$LAT)
-colnames(countries_longlat) <- c("Name", "Lon", "Lat")
+#-----------------------------------------------------------------------------------------------------
+ts_deaths_global <- read_csv("time_series_covid19_deaths_global.csv")
+ts_deaths_global <- as.data.frame(ts_deaths_global)
+ts_deaths_global <- ts_confirmed_global %>% select(1:4, tail(names(.),1))
+colnames(ts_deaths_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths")
 
-global_data <- global_data %>% full_join(countries_longlat, "Name")
-global_data <- SpatialPointsDataFrame(global_data)
-global_data <- as("global_data.shp", Class = "Spatial")
+#-----------------------------------------------------------------------------------------------------
+ts_recovered_global <- read_csv("time_series_covid19_recovered_global.csv")
+ts_recovered_global <- as.data.frame(ts_recovered_global)
+ts_recovered_global <- ts_confirmed_global %>% select(1:4, tail(names(.),1))
+colnames(ts_recovered_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths")
 
-countries_longlat %>% leaflet() %>% addTiles()
+
+
+
 
 
 
