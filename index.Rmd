@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 6 October 2021"
+date: "Last updated on 7 October 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -915,25 +915,8 @@ COVID_19_TS %>% BoxCox(lambda = 0.1983581) %>% checkresiduals()
 
 Worldwide
 ===================================================
+```{r eval = TRUE}
 
-Row
-----------------------------------------------------
-```{r eval = FALSE}
-gauge("World cases")
-gauge("World deaths")
-
-```
-
-
-
-
-
-
-Row {data-height = 200}
--------------------------------------------------------
-
-
-```{r eval = TRUE, fig.height= 5, fig.width= 20}
 World_Coordinates <- read_csv("World_Coordinates.csv")
 
 #CSV data are obtained from https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
@@ -942,17 +925,57 @@ World_Coordinates <- read_csv("World_Coordinates.csv")
 
 ts_confirmed_global <- read_csv("time_series_covid19_confirmed_global.csv")
 ts_confirmed_global <- as.data.frame(ts_confirmed_global)
-ts_confirmed_global <- ts_confirmed_global %>% select(1:4, tail(names(.),1))
-colnames(ts_confirmed_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Confirmed")
+ts_confirmed_global <- ts_confirmed_global %>% select(1:4, tail(names(.),2))
+ts_confirmed_global <- ts_confirmed_global %>% mutate(Diff = ts_confirmed_global[,6] - ts_confirmed_global[,5])
+colnames(ts_confirmed_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Confirmed_yesterday", "Confirmed_today", "Diff")
 
 #-----------------------------------------------------------------------------------------------------
 ts_deaths_global <- read_csv("time_series_covid19_deaths_global.csv")
 ts_deaths_global <- as.data.frame(ts_deaths_global)
-ts_deaths_global <- ts_deaths_global %>% select(1:4, tail(names(.),1))
-colnames(ts_deaths_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths")
+ts_deaths_global <- ts_deaths_global %>% select(1:4, tail(names(.),2))
+ts_deaths_global <- ts_deaths_global %>% mutate(Diff = ts_deaths_global[,6] - ts_deaths_global[,5])
+colnames(ts_deaths_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths_Yesterday", "Deaths_today", "Diff")
+
+#-----------------------------------------------------------------------------------------------------
+
+```
+
+
+Row {data-width = 200}
+-------------------------------------------------------
+
+### Update
+```{r}
+valueBox(value = "4 October 2021" , caption = "Last Updated", color = "purple", icon = "fas fa-clock")
+```
+
+
+### Confirmed Cases
+```{r}
+World_Cases_Diff <- prettyNum(sum(ts_confirmed_global$Diff), big.mark = ",")
+
+
+valueBox(value = prettyNum(sum(ts_confirmed_global$Confirmed_today), big.mark = ","), color = "teal", icon = "fas fa-chart-bar", caption = paste0("Confirmed Cases", "<br>", "New Cases: +", World_Cases_Diff))
+```
+
+### Deaths
+```{r}
+World_Deaths_Diff <- prettyNum(sum(ts_deaths_global$Diff), big.mark = ",")
 
 
 
+valueBox(value = prettyNum(sum(ts_deaths_global$Deaths_today), big.mark = ","),icon = "fas fa-skull-crossbones", color = "red", caption = paste0("Deaths", "<br>", "New Deaths: +", World_Deaths_Diff))
+```
+
+### Vaccinations
+
+
+
+Row {data-height = 800}
+-------------------------------------------------------
+
+
+```{r eval = TRUE, fig.height= 10, fig.width= 20}
 
 leaflet(World_Coordinates) %>% 
   
@@ -964,8 +987,8 @@ leaflet(World_Coordinates) %>%
                    popup = ~paste0("<b>Date: 4 October 2021 </b>", "<br>", 
                                    "<b>Country/Region: </b>",World_Coordinates$Country_Region, "<br>",
                                  "<b>Province/State: </b>", World_Coordinates$Province_State, "<br>",
-                                 "<b>Confirmed Cases: </b>",prettyNum(ts_confirmed_global$Confirmed, big.mark = ",") , "<br>",
-                                 "<b>Deaths: </b>", prettyNum(ts_deaths_global$Deaths, big.mark = ","))) %>%
+                                 "<b>Confirmed Cases: </b>",prettyNum(ts_confirmed_global$Confirmed_today, big.mark = ",") , "<br>",
+                                 "<b>Deaths: </b>", prettyNum(ts_deaths_global$Deaths_today, big.mark = ","))) %>%
   
   addEasyButton(easyButton(icon = "fa-globe", 
                            title = "Zoom to Level 1",
