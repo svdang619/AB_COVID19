@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 7 October 2021"
+date: "Last updated on 12 October 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -188,60 +188,97 @@ Row {data-width = 200}
 
 ### Daily Count
 
-```{r}
+```{r Daily Case Count}
 case_count <- COVID19 %>% group_by(Date_reported) %>% count()
+case_count$Diff <- case_count$n - lag(case_count$n)
 
-valueBox(value = last(case_count$n), caption = "Daily Case Count", color = "blue", icon = "fas fa-biohazard")
+valueBox(value = prettyNum(last(case_count$n), big.mark = ","), 
+         caption = paste0("Daily Case Count", "<br>", "Change: ",  prettyNum(last(case_count$Diff), big.mark = ",")), 
+         color = "blue", 
+         icon = "fas fa-biohazard")
 
 ```
 
 ### Active Cases
 
-```{r}
+```{r Active Cases}
 
-Active_cases_valuebox <- Hospital %>% filter(Location == "Alberta") %>% group_by(Date) %>% select(Active_Cases)
+Active_cases_valuebox <- Hospital %>% filter(Location == "Alberta") %>% group_by(Date) %>% select(Active_Cases) %>% arrange(Date)
 
-valueBox(value = prettyNum(first(Active_cases_valuebox$Active_Cases), big.mark = ","), caption = "Active Cases", color = "teal", icon = "fas fa-chart-bar")
+Active_cases_valuebox$Diff <-Active_cases_valuebox$Active_Cases - lag(Active_cases_valuebox$Active_Cases)
+
+valueBox(value = prettyNum(last(Active_cases_valuebox$Active_Cases), big.mark = ","), 
+         caption = paste0("Active Cases", "<br>", "Change: ", last(Active_cases_valuebox$Diff)), 
+         color = "teal", 
+         icon = "fas fa-chart-bar")
 ```
 
 ### Total Deaths
 
-```{r}
+```{r Total Deaths}
+Deaths <- Hospital %>% filter(Location == "Alberta")  %>% select(Date, Deaths) %>% arrange(Date)
 
-Deaths <- Hospital %>% filter(Location == "Alberta" & Date == max(Date)) %>% select(Deaths)
 
-valueBox(value = prettyNum(Deaths, big.mark = ","), caption = "Total Death Count", icon = "fas fa-skull-crossbones", color = "red")
+
+Deaths$Diff <- Deaths$Deaths - lag(Deaths$Deaths)
+
+valueBox(value = prettyNum(last(Deaths$Deaths), big.mark = ","), 
+         caption = paste0("Total Death Count", "<br>", "Change: ", prettyNum(last(Deaths$Diff), big.mark = ",")),
+         color = "red",
+         icon = "fas fa-skull-crossbones")
 
 ```
 
 ### Total Vaccine Doses administered
 
-```{r}
-zone_fully_imm <- Vaccine_Progress %>% group_by(location) %>% filter(date == max(date))
+```{r Total Vaccine Doses Administered}
 
-valueBox(value = prettyNum(sum(zone_fully_imm$total_doses_administered), big.mark = ","), caption = "Total Doses Administered", icon = "fas fa-syringe", color = "fuchsia")
+
+AB_Total_Vacc <- Vaccine_Progress %>% group_by(date) %>% summarise(Total_Vacc = sum(total_doses_administered))
+
+AB_Total_Vacc$Diff <- AB_Total_Vacc$Total_Vacc - lag(AB_Total_Vacc$Total_Vacc)
+
+valueBox(value = prettyNum(last(AB_Total_Vacc$Total_Vacc), big.mark = ","), 
+         caption = paste0("Total Doses Administered", "<br>", "Change: ", prettyNum(last(AB_Total_Vacc$Diff), big.mark = 
+                                                                                      ",")),
+         color = "fuchsia",
+         icon = "fas fa-syringe")
 ```
 
 ### Lab Positivity Rate
-```{r}
+```{r  Lab Positivity Rate}
 
-Lab_Pos <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(pos_rate = sum(Test_pos_rate/n())) 
+Lab_Pos <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(pos_rate = sum(Test_pos_rate/n()))
+Lab_Pos$Diff <- Lab_Pos$pos_rate - lag(Lab_Pos$pos_rate)
 
-valueBox(value = prettyNum(last(Lab_Pos$pos_rate)), caption = "Positivity Rate", icon = "fas fa-vial" , color = "green")
+valueBox(value = prettyNum(last(Lab_Pos$pos_rate)), 
+         caption = paste0("Positivity Rate (%)", "<br>", "Change: ", prettyNum(last(Lab_Pos$Diff)), "%"),  
+         color = "green",
+         icon = "fas fa-vial")
 ```
 
 ### Hospitalization Number
-```{r}
+```{r Hospitalization Number}
 Hosp_num <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(Hosp = sum(In_hospital))
+Hosp_num$Diff <- Hosp_num$Hosp - lag(Hosp_num$Hosp)
 
-valueBox(value = last(Hosp_num$Hosp), caption = "Hospitalizations", icon = "fas fa-hospital" , color = "orange")
+valueBox(value = prettyNum(last(Hosp_num$Hosp), big.mark = ","), 
+         caption = paste0("Hospitalizations", "<br>", "Change: ", prettyNum(last(Hosp_num$Diff), big.mark = ","), "<br>",
+                          "Record High: ", prettyNum(max(Hosp_num$Hosp), big.mark = ",")),
+         color = "orange",
+         icon = "fas fa-hospital")
 ```
 
 ### ICU Number
-```{r}
+```{r ICU Number}
 ICU_num <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(ICU_case = sum(ICU))
+ICU_num$Diff <- ICU_num$ICU_case - diff(ICU_num$ICU_case)
 
-valueBox(value = prettyNum(last(ICU_num$ICU_case), big.mark = ","), caption = "Patients in ICU", icon = "fas fa-procedures", color = "olive")
+valueBox(value = prettyNum(last(ICU_num$ICU_case), big.mark = ","), 
+         caption = paste0("Patients in ICU", "<br>", "Change: ", prettyNum(last(ICU_num$Diff), big.mark = ","), "<br>",
+                          "Record High: ", prettyNum(max(ICU_num$ICU_case), big.mark = ",")),
+         color = "olive",
+         icon = "fas fa-procedures")
          
 ```
 
@@ -252,7 +289,7 @@ valueBox(value = prettyNum(last(ICU_num$ICU_case), big.mark = ","), caption = "P
 
 Row {data-width = 600}
 ---------------------------------------------------------------------------------
-```{r}
+```{r Active Cases geojson}
 #leaflet_geojson <- readr::read_file("https://data.edmonton.ca/resource/ix8f-s9xp.geojson")
 #Data from https://data.edmonton.ca/Community-Services/COVID-19-in-Alberta-Current-cases-by-local-geograp/ix8f-s9xp
 
@@ -315,6 +352,9 @@ cumulative_COVID19_Week %>% plot_ly(x = ~Week, y = ~n, color = ~AHS_Zones) %>%
 
 Column {data-width = 100}
 ------------------------------------------------------------------------------
+```{r}
+zone_fully_imm <- Vaccine_Progress %>% group_by(location) %>% filter(date == max(date))
+```
 
 
 ### Calgary Zone
@@ -945,29 +985,65 @@ Row {data-width = 200}
 -------------------------------------------------------
 
 ### Update
-```{r}
-valueBox(value = "4 October 2021" , caption = "Last Updated", color = "purple", icon = "fas fa-clock")
+```{r World Date}
+valueBox(value = "4 October 2021" , 
+         caption = "Last Updated", 
+         icon = "fas fa-clock",
+         color = "purple"
+        )
 ```
 
 
 ### Confirmed Cases
-```{r}
+```{r World Cases}
 World_Cases_Diff <- prettyNum(sum(ts_confirmed_global$Diff), big.mark = ",")
 
 
-valueBox(value = prettyNum(sum(ts_confirmed_global$Confirmed_today), big.mark = ","), color = "teal", icon = "fas fa-chart-bar", caption = paste0("Confirmed Cases", "<br>", "New Cases: +", World_Cases_Diff))
+valueBox(value = prettyNum(sum(ts_confirmed_global$Confirmed_today), big.mark = ","), 
+         caption = paste0("Confirmed Cases", "<br>", "New Cases: +", World_Cases_Diff),
+         icon = "fas fa-chart-bar", 
+         color = "teal"
+         )
 ```
 
 ### Deaths
-```{r}
+```{r World Deaths}
 World_Deaths_Diff <- prettyNum(sum(ts_deaths_global$Diff), big.mark = ",")
 
 
-
-valueBox(value = prettyNum(sum(ts_deaths_global$Deaths_today), big.mark = ","),icon = "fas fa-skull-crossbones", color = "red", caption = paste0("Deaths", "<br>", "New Deaths: +", World_Deaths_Diff))
+valueBox(value = prettyNum(sum(ts_deaths_global$Deaths_today), big.mark = ","),
+         caption = paste0("Deaths", "<br>", "New Deaths: +", World_Deaths_Diff),
+         color = "red", 
+         icon = "fas fa-skull-crossbones"
+         )
 ```
 
 ### Vaccinations
+```{r World Vaccinations}
+
+World_covid_data_owid_raw <- read_csv("owid-covid-data.csv")
+
+World_covid_data_owid <- World_covid_data_owid_raw %>% filter(date == max(date)) %>% select(1:6, 8:9,18,20,26:27,32,35:37, 47)
+
+world_covid_vacc_yesterday <- World_covid_data_owid_raw %>% filter(date == max(date)-1) %>% select(1:4, total_vaccinations)
+world_covid_vacc_today <- World_covid_data_owid_raw %>% filter(date == max(date)) %>% select(1:4, total_vaccinations)
+
+world_covid_vacc <- world_covid_vacc_yesterday %>% 
+  left_join(world_covid_vacc_today, by = "iso_code",suffix = c("Yesterday", "Today")) %>% 
+  mutate(Diff = total_vaccinationsToday - total_vaccinationsYesterday) %>% 
+  select(1:5,8:10)
+
+
+
+
+valueBox(value = prettyNum(sum(world_covid_vacc$total_vaccinationsToday, na.rm = TRUE), big.mark = ","),
+         caption = paste0("Total Vaccinations, ", "<br>", "Change: ", prettyNum(sum(world_covid_vacc$Diff, na.rm = TRUE), big.mark =
+                                                                                  ",")),
+         color = "fuchsia",
+         icon = "fas fa-syringe")
+
+```
+
 
 
 
@@ -991,8 +1067,8 @@ leaflet(World_Coordinates) %>%
                                  "<b>Deaths: </b>", prettyNum(ts_deaths_global$Deaths_today, big.mark = ","))) %>%
   
   addEasyButton(easyButton(icon = "fa-globe", 
-                           title = "Zoom to Level 1",
-                           onClick = JS("function(btn,map){ map.setZoom(1); }"))) %>%
+                           title = "Reset Zoom",
+                           onClick = JS("function(btn,map){ map.setZoom(3); }"))) %>%
   
   addEasyButton(easyButton(icon="fa-crosshairs", 
                            title = "Locate Me", 
