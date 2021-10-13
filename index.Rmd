@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 12 October 2021"
+date: "Last updated on 13 October 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -272,7 +272,7 @@ valueBox(value = prettyNum(last(Hosp_num$Hosp), big.mark = ","),
 ### ICU Number
 ```{r ICU Number}
 ICU_num <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(ICU_case = sum(ICU))
-ICU_num$Diff <- ICU_num$ICU_case - diff(ICU_num$ICU_case)
+ICU_num$Diff <- ICU_num$ICU_case - lag(ICU_num$ICU_case)
 
 valueBox(value = prettyNum(last(ICU_num$ICU_case), big.mark = ","), 
          caption = paste0("Patients in ICU", "<br>", "Change: ", prettyNum(last(ICU_num$Diff), big.mark = ","), "<br>",
@@ -963,15 +963,15 @@ World_Coordinates <- read_csv("World_Coordinates.csv")
 #Dashboard will be updated weekly
 #Recovery data discontinued on Aug 5, 2021
 
-ts_confirmed_global <- read_csv("time_series_covid19_confirmed_global.csv")
-ts_confirmed_global <- as.data.frame(ts_confirmed_global)
+ts_confirmed_global_raw <- read_csv("time_series_covid19_confirmed_global.csv")
+ts_confirmed_global <- as.data.frame(ts_confirmed_global_raw)
 ts_confirmed_global <- ts_confirmed_global %>% select(1:4, tail(names(.),2))
 ts_confirmed_global <- ts_confirmed_global %>% mutate(Diff = ts_confirmed_global[,6] - ts_confirmed_global[,5])
 colnames(ts_confirmed_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Confirmed_yesterday", "Confirmed_today", "Diff")
 
 #-----------------------------------------------------------------------------------------------------
-ts_deaths_global <- read_csv("time_series_covid19_deaths_global.csv")
-ts_deaths_global <- as.data.frame(ts_deaths_global)
+ts_deaths_global_raw <- read_csv("time_series_covid19_deaths_global.csv")
+ts_deaths_global <- as.data.frame(ts_deaths_global_raw)
 ts_deaths_global <- ts_deaths_global %>% select(1:4, tail(names(.),2))
 ts_deaths_global <- ts_deaths_global %>% mutate(Diff = ts_deaths_global[,6] - ts_deaths_global[,5])
 colnames(ts_deaths_global) <- c("Province_State", "Country_Region", "Lat", "Long", "Deaths_Yesterday", "Deaths_today", "Diff")
@@ -1050,8 +1050,8 @@ valueBox(value = prettyNum(sum(world_covid_vacc$total_vaccinationsToday, na.rm =
 Row {data-height = 800}
 -------------------------------------------------------
 
-
-```{r eval = TRUE, fig.height= 10, fig.width= 20}
+### World leaflet
+```{r World leaflet, eval = TRUE, fig.height= 10, fig.width= 10}
 
 leaflet(World_Coordinates) %>% 
   
@@ -1087,8 +1087,45 @@ leaflet(World_Coordinates) %>%
 
 ```
 
+### World Choropleth
+
+```{r eval = FALSE, fig.height= 10, fig.width = 10}
 
 
+ts_world_COVID19_confirmed_narrow_raw <- read.csv("time_series_covid19_confirmed_global_narrow.csv")
+ts_world_COVID19_confirmed_narrow <- as.data.frame(ts_world_COVID19_confirmed_narrow_raw)
+
+
+
+world_choropleth <- as.data.frame(World_covid_data_owid_raw)
+world_choropleth <- world_choropleth %>% select(1:4, new_cases_per_million)
+
+
+ts_world_COVID19_confirmed_narrow <- ts_world_COVID19_confirmed_narrow %>% left_join(world_choropleth, by = c("ISO_3166" = "iso_code"))
+
+
+
+plot_geo(world_choropleth, locationmode = 'country names') %>%
+  add_trace(
+    z = ~new_cases_per_million,
+    locations = ~iso_code,
+    color = ~new_cases_per_million,
+    colors = "Oranges",
+    frame = ~date
+  )
+         
+         
+
+
+
+#plot_geo(ts_world_COVID19_confirmed_narrow,
+#         locations = ~ISO_3166,
+#         z = ~Value,
+#         frame = ~Date,
+#         color = ~Value)
+
+
+```
 
 
 
