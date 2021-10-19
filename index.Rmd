@@ -359,40 +359,40 @@ zone_fully_imm <- Vaccine_Progress %>% group_by(location) %>% filter(date == max
 
 ### Calgary Zone
 ```{r}
-gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[1],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[1],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 ### Central Zone
 ```{r}
-gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[2],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[2],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 ### Edmonton Zone
 ```{r}
-gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[3],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[3],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 ### Total AB Population
 ```{r}
 
 
-gauge(value = round(sum(zone_fully_imm$dose_1)/sum(zone_fully_imm$population)*100,1), min = 0, max = 100, symbol = "%", label = "One dose", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(sum(zone_fully_imm$dose_1)/sum(zone_fully_imm$population)*100,1), min = 0, max = 100, symbol = "%", label = "One dose", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 ### North Zone
 ```{r}
-gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[4],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[4],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 ### South Zone
 
 ```{r}
-gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[5],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(zone_fully_imm$percent_pop_fully_immunized[5],1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 ### Total AB Population
 ```{r}
-gauge(value = round(sum(zone_fully_imm$dose_2)/sum(zone_fully_imm$population)*100, 1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), warning = c(40,69), danger = c(0,39)))
+gauge(value = round(sum(zone_fully_imm$dose_2)/sum(zone_fully_imm$population)*100, 1), min = 0, max = 100, symbol = "%", label = "Two doses", gaugeSectors(success = c(70,100), danger = c(40,69), warning = c(0,39)))
 ```
 
 
