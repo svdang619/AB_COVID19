@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 30 October 2021"
+date: "Last updated on 4 November 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -986,7 +986,7 @@ Row {data-width = 200}
 
 ### Update
 ```{r World Date}
-valueBox(value = "4 October 2021" , 
+valueBox(value = "4 November 2021" , 
          caption = "Last Updated", 
          icon = "fas fa-clock",
          color = "purple"
@@ -1060,7 +1060,7 @@ leaflet(World_Coordinates) %>%
   addProviderTiles("Esri.NatGeoWorldMap",options = providerTileOptions(noWrap = TRUE), group = "Light")%>%
   addCircleMarkers(radius = 5,
                    color = "red",
-                   popup = ~paste0("<b>Date: 4 October 2021 </b>", "<br>", 
+                   popup = ~paste0("<b>Date: 4 November 2021 </b>", "<br>", 
                                    "<b>Country/Region: </b>",World_Coordinates$Country_Region, "<br>",
                                  "<b>Province/State: </b>", World_Coordinates$Province_State, "<br>",
                                  "<b>Confirmed Cases: </b>",prettyNum(ts_confirmed_global$Confirmed_today, big.mark = ",") , "<br>",
@@ -1138,7 +1138,7 @@ About
 
 
 Welcome to the unofficial Alberta COVID-19 Dashboard. This dashboard was created using R programming software 
-and the data was obtained from the City of Edmonton open dataset webpage using JSON and geoJSON functionality. 
+and the data was obtained from the City of Edmonton open dataset webpage using JSON and geoJSON functionality. World data is also included and retrieved from Ritchie et al. (link below)
 
 
 
@@ -1152,11 +1152,11 @@ The purpose of this dashboard is to create an easy to read visualization of the 
 
 - Data are pulled from various sources. Some sources are frequently updated, others are not. 
 
-- Plots may not be 100% accurate. Calculations of certain plots require data wrangling and mathematical calculations. Plots are cross referenced to the plots created by the City of Edmonton and AHS for accuracy
+- Plots may not be 100% accurate. Calculations of certain plots require data wrangling and mathematical calculations. Plots are cross referenced to the plots created by the City of Edmonton and AHS for accuracy.
 
 
 - The efficiency of the code may not be optimal and run times may be longer than what is needed to formulate the plots. This project
-was used a learning opportunity to explore the various R packages and to hone coding skills
+was used a learning opportunity to explore the various R packages and to hone coding practices.
 
 
 Future
@@ -1191,6 +1191,9 @@ Raw data used to create the dashboard can be found here:
 
 - [COVID-19 Alberta Case History by Geography](https://data.edmonton.ca/Externally-Sourced-Datasets/COVID-19-in-Alberta-Case-History-by-Municipality-a/rrjc-ssaw)
 
+- [World COVID Data](https://ourworldindata.org/covid-deaths)
+
+- [World COVID Time Series Data](https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases)
 
 
 
