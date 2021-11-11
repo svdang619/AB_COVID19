@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 4 November 2021"
+date: "Last updated on 10 November 2021"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -149,19 +149,19 @@ Hospital <- Hospital %>% mutate_at(c("Confirmed_Cases",
 #https://data.edmonton.ca/Externally-Sourced-Datasets/COVID-19-in-Alberta-Case-History-by-Municipality-a/rrjc-ssaw
 #set limit 84000
 
-Historical_get <- GET("https://data.edmonton.ca/resource/rrjc-ssaw.json?$limit=2000")
+#Historical_get <- GET("https://data.edmonton.ca/resource/rrjc-ssaw.json?$limit=2000")
 
-Historical <- fromJSON(rawToChar(Historical_get$content))
+#Historical <- fromJSON(rawToChar(Historical_get$content))
 
-Historical$date <- as_date(Historical$date)
+#Historical$date <- as_date(Historical$date)
 
-Historical$cases_total <- as.numeric(Historical$cases_total)
-
-
+#Historical$cases_total <- as.numeric(Historical$cases_total)
 
 
 
-Historical_SHP_get <- geojson_read("https://data.edmonton.ca/resource/rrjc-ssaw.geojson?$limit=2000", what = "sp")
+
+
+#Historical_SHP_get <- geojson_read("https://data.edmonton.ca/resource/rrjc-ssaw.geojson?$limit=2000", what = "sp")
 
 
 
@@ -193,7 +193,7 @@ case_count <- COVID19 %>% group_by(Date_reported) %>% count()
 case_count$Diff <- case_count$n - lag(case_count$n)
 
 valueBox(value = prettyNum(last(case_count$n), big.mark = ","), 
-         caption = paste0("Daily Case Count", "<br>", "Change: ",  prettyNum(last(case_count$Diff), big.mark = ",")), 
+         caption = paste0("Daily Case Count", "", "Change: ",  prettyNum(last(case_count$Diff), big.mark = ",")), 
          color = "blue", 
          icon = "fas fa-biohazard")
 
@@ -208,7 +208,7 @@ Active_cases_valuebox <- Hospital %>% filter(Location == "Alberta") %>% group_by
 Active_cases_valuebox$Diff <-Active_cases_valuebox$Active_Cases - lag(Active_cases_valuebox$Active_Cases)
 
 valueBox(value = prettyNum(last(Active_cases_valuebox$Active_Cases), big.mark = ","), 
-         caption = paste0("Active Cases", "<br>", "Change: ", last(Active_cases_valuebox$Diff)), 
+         caption = paste0("Active Cases", "", "Change: ", last(Active_cases_valuebox$Diff)), 
          color = "teal", 
          icon = "fas fa-chart-bar")
 ```
@@ -223,7 +223,7 @@ Deaths <- Hospital %>% filter(Location == "Alberta")  %>% select(Date, Deaths) %
 Deaths$Diff <- Deaths$Deaths - lag(Deaths$Deaths)
 
 valueBox(value = prettyNum(last(Deaths$Deaths), big.mark = ","), 
-         caption = paste0("Total Death Count", "<br>", "Change: ", prettyNum(last(Deaths$Diff), big.mark = ",")),
+         caption = paste0("Total Death Count", "", "Change: ", prettyNum(last(Deaths$Diff), big.mark = ",")),
          color = "red",
          icon = "fas fa-skull-crossbones")
 
@@ -239,7 +239,7 @@ AB_Total_Vacc <- Vaccine_Progress %>% group_by(date) %>% summarise(Total_Vacc = 
 AB_Total_Vacc$Diff <- AB_Total_Vacc$Total_Vacc - lag(AB_Total_Vacc$Total_Vacc)
 
 valueBox(value = prettyNum(last(AB_Total_Vacc$Total_Vacc), big.mark = ","), 
-         caption = paste0("Total Doses Administered", "<br>", "Change: ", prettyNum(last(AB_Total_Vacc$Diff), big.mark = 
+         caption = paste0("Total Doses Administered", "", "Change: ", prettyNum(last(AB_Total_Vacc$Diff), big.mark = 
                                                                                       ",")),
          color = "fuchsia",
          icon = "fas fa-syringe")
@@ -252,7 +252,7 @@ Lab_Pos <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(pos_rate = su
 Lab_Pos$Diff <- Lab_Pos$pos_rate - lag(Lab_Pos$pos_rate)
 
 valueBox(value = prettyNum(last(Lab_Pos$pos_rate)), 
-         caption = paste0("Positivity Rate (%)", "<br>", "Change: ", prettyNum(last(Lab_Pos$Diff)), "%"),  
+         caption = paste0("Positivity Rate (%)", "", "Change: ", prettyNum(last(Lab_Pos$Diff)), "%"),  
          color = "green",
          icon = "fas fa-vial")
 ```
@@ -263,7 +263,7 @@ Hosp_num <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(Hosp = sum(I
 Hosp_num$Diff <- Hosp_num$Hosp - lag(Hosp_num$Hosp)
 
 valueBox(value = prettyNum(last(Hosp_num$Hosp), big.mark = ","), 
-         caption = paste0("Hospitalizations", "<br>", "Change: ", prettyNum(last(Hosp_num$Diff), big.mark = ","), "<br>",
+         caption = paste0("Hospitalizations", "", "Change: ", prettyNum(last(Hosp_num$Diff), big.mark = ","), "",
                           "Record High: ", prettyNum(max(Hosp_num$Hosp), big.mark = ",")),
          color = "orange",
          icon = "fas fa-hospital")
@@ -275,7 +275,7 @@ ICU_num <- Hospital %>% group_by(Date) %>% na.omit() %>% summarise(ICU_case = su
 ICU_num$Diff <- ICU_num$ICU_case - lag(ICU_num$ICU_case)
 
 valueBox(value = prettyNum(last(ICU_num$ICU_case), big.mark = ","), 
-         caption = paste0("Patients in ICU", "<br>", "Change: ", prettyNum(last(ICU_num$Diff), big.mark = ","), "<br>",
+         caption = paste0("Patients in ICU", "", "Change: ", prettyNum(last(ICU_num$Diff), big.mark = ","), "",
                           "Record High: ", prettyNum(max(ICU_num$ICU_case), big.mark = ",")),
          color = "olive",
          icon = "fas fa-procedures")
@@ -313,14 +313,14 @@ leaflet(leaflet_geojson) %>% addProviderTiles("Esri")%>% setView(lng = -115, lat
                weight = 0.7,
                color = "green", 
                fillColor = ~col(as.numeric(leaflet_geojson$active_cases)),
-               popup = ~paste("<b>", "Location: ", "</b>", location, "<br>",
-                              "<b>", "Date: ", "</b>", date, "<br>", 
-                              "<b>", "Active Cases: " , "</b>", active_cases), 
+               popup = ~paste("", "Location: ", "", location, "",
+                              "", "Date: ", "", date, "", 
+                              "", "Active Cases: " , "", active_cases), 
                highlight = highlightOptions(weight = 5, 
                                             color = "black", 
                                             bringToFront = TRUE)) %>% 
   
-  addLegend(pal = col, 
+  leaflet::addLegend(pal = col, 
             values = leaflet_geojson$active_cases, 
             position = "bottomright",
             title = "Active Cases")
@@ -339,7 +339,7 @@ cumulative_COVID19_Week <- COVID19_Week %>% split(f = .$Week) %>% accumulate(., 
 
 cumulative_COVID19_Week %>% plot_ly(x = ~Week, y = ~n, color = ~AHS_Zones) %>% 
   add_lines(frame = ~frame, ids = ~AHS_Zones) %>% 
-  animation_opts(frame = 300) %>% 
+  animation_opts(frame = 200) %>% 
   layout(xaxis = list(title = "Date in weeks", autoscale = TRUE),
          yaxis = list(title = "Case Counts", autoscale = TRUE))
 
@@ -553,13 +553,13 @@ leaflet(Vacc_poly) %>% addProviderTiles("Esri")%>% setView(lng = -115, lat = 55,
               color = "red",
               fillColor = ~vacc1_col_bins(percent_pop_1_plus_dose),
               fillOpacity = 0.5,
-              popup = ~paste("Name:", location, "<br>",
-                             "Population:", population, "<br>",
-                             "Total Cases:", total_cases,"<br>",
-                             "Active Cases:", active_cases, "<br>",
-                             "Total Deaths:", deaths, "<br>",
-                             "Total Dose Administered:", total_doses_administered, "<br>",
-                             "% pop with 1 dose:", percent_pop_1_plus_dose, "<br>",
+              popup = ~paste("Name:", location, "",
+                             "Population:", population, "",
+                             "Total Cases:", total_cases,"",
+                             "Active Cases:", active_cases, "",
+                             "Total Deaths:", deaths, "",
+                             "Total Dose Administered:", total_doses_administered, "",
+                             "% pop with 1 dose:", percent_pop_1_plus_dose, "",
                              "% pop fully immunized:", percent_pop_fully_immunized),
               highlight = highlightOptions(weight =6, color = "black", bringToFront = TRUE),
               group = "At least one dose") %>%
@@ -568,19 +568,19 @@ leaflet(Vacc_poly) %>% addProviderTiles("Esri")%>% setView(lng = -115, lat = 55,
               color = "red",
               fillColor = ~vacc2_col_bins(percent_pop_fully_immunized),
               fillOpacity = 0.5,
-              popup = ~paste("Name:", location, "<br>",
-                             "Population:", population, "<br>",
-                             "Total Cases:", total_cases,"<br>",
-                             "Active Cases:", active_cases, "<br>",
-                             "Total Deaths:", deaths, "<br>",
-                             "Total Dose Administered:", total_doses_administered, "<br>",
-                             "% pop with 1 dose:", percent_pop_1_plus_dose, "<br>",
+              popup = ~paste("Name:", location, "",
+                             "Population:", population, "",
+                             "Total Cases:", total_cases,"",
+                             "Active Cases:", active_cases, "",
+                             "Total Deaths:", deaths, "",
+                             "Total Dose Administered:", total_doses_administered, "",
+                             "% pop with 1 dose:", percent_pop_1_plus_dose, "",
                              "% pop fully immunized:", percent_pop_fully_immunized),
               highlight = highlightOptions(weight =6, color = "black", bringToFront = TRUE),
               group = "Fully vaccinated") %>%
   
   
-  addLegend(pal = vacc1_col_bins,
+  leaflet::addLegend(pal = vacc1_col_bins,
             values = Vacc_poly@data$percent_pop_1_plus_dose,
             position = "bottomright",
             title = "Percent %") %>%
@@ -696,8 +696,8 @@ Historical_SHP_get$cases_active <- selectedData$cases_active[match(Historical_SH
 
 #Create label texts
 Historical_SHP_get@data$Labeltext <- paste0(
-  "<b> Location: </b>", Historical_SHP_get@data$location,
-  "<b> Cases: </b>", format(Historical_SHP_get@data$cases_active, nsmall = 0, big.mark = ",")
+  " Location: ", Historical_SHP_get@data$location,
+  " Cases: ", format(Historical_SHP_get@data$cases_active, nsmall = 0, big.mark = ",")
 )
 
 
@@ -741,8 +741,8 @@ observe({
   Historical_SHP_get$cases_active <- filteredData()$cases_active[match(Historical_SHP_get$location, filteredData()$cases_active)]
   
   Historical_SHP_get@data$Labeltext <- paste0(
-  "<b> Location: </b>", Historical_SHP_get@data$location,
-  "<b> Cases: </b>", format(Historical_SHP_get@data$cases_active, nsmall = 0, big.mark = ","))
+  " Location: ", Historical_SHP_get@data$location,
+  " Cases: ", format(Historical_SHP_get@data$cases_active, nsmall = 0, big.mark = ","))
 
   
   
@@ -804,8 +804,8 @@ Chart2 <- Pos_Rate %>%
   plot_ly(x = ~Date, y = ~avg_pos, name = "Positivity Rate", type = "scatter", mode = "lines",
           line = list(width = 4),
           hoverinfo = "text", text = ~paste(
-    "Date:", Date, "<br>",
-    "Tests:", Tests_sum, "<br>",
+    "Date:", Date, "",
+    "Tests:", Tests_sum, "",
     "Pos Rate (%):", avg_pos
   ))
 
@@ -1000,7 +1000,7 @@ World_Cases_Diff <- prettyNum(sum(ts_confirmed_global$Diff), big.mark = ",")
 
 
 valueBox(value = prettyNum(sum(ts_confirmed_global$Confirmed_today), big.mark = ","), 
-         caption = paste0("Confirmed Cases", "<br>", "New Cases: +", World_Cases_Diff),
+         caption = paste0("Confirmed Cases", "", "New Cases: +", World_Cases_Diff),
          icon = "fas fa-chart-bar", 
          color = "teal"
          )
@@ -1012,7 +1012,7 @@ World_Deaths_Diff <- prettyNum(sum(ts_deaths_global$Diff), big.mark = ",")
 
 
 valueBox(value = prettyNum(sum(ts_deaths_global$Deaths_today), big.mark = ","),
-         caption = paste0("Deaths", "<br>", "New Deaths: +", World_Deaths_Diff),
+         caption = paste0("Deaths", "", "New Deaths: +", World_Deaths_Diff),
          color = "red", 
          icon = "fas fa-skull-crossbones"
          )
@@ -1037,7 +1037,7 @@ world_covid_vacc <- world_covid_vacc_yesterday %>%
 
 
 valueBox(value = prettyNum(sum(world_covid_vacc$total_vaccinationsToday, na.rm = TRUE), big.mark = ","),
-         caption = paste0("Total Vaccinations, ", "<br>", "Change: ", prettyNum(sum(world_covid_vacc$Diff, na.rm = TRUE), big.mark =
+         caption = paste0("Total Vaccinations, ", "", "Change: ", prettyNum(sum(world_covid_vacc$Diff, na.rm = TRUE), big.mark =
                                                                                   ",")),
          color = "fuchsia",
          icon = "fas fa-syringe")
@@ -1060,11 +1060,11 @@ leaflet(World_Coordinates) %>%
   addProviderTiles("Esri.NatGeoWorldMap",options = providerTileOptions(noWrap = TRUE), group = "Light")%>%
   addCircleMarkers(radius = 5,
                    color = "red",
-                   popup = ~paste0("<b>Date: 4 November 2021 </b>", "<br>", 
-                                   "<b>Country/Region: </b>",World_Coordinates$Country_Region, "<br>",
-                                 "<b>Province/State: </b>", World_Coordinates$Province_State, "<br>",
-                                 "<b>Confirmed Cases: </b>",prettyNum(ts_confirmed_global$Confirmed_today, big.mark = ",") , "<br>",
-                                 "<b>Deaths: </b>", prettyNum(ts_deaths_global$Deaths_today, big.mark = ","))) %>%
+                   popup = ~paste0("Date: 4 November 2021 ", "", 
+                                   "Country/Region: ",World_Coordinates$Country_Region, "",
+                                 "Province/State: ", World_Coordinates$Province_State, "",
+                                 "Confirmed Cases: ",prettyNum(ts_confirmed_global$Confirmed_today, big.mark = ",") , "",
+                                 "Deaths: ", prettyNum(ts_deaths_global$Deaths_today, big.mark = ","))) %>%
   
   addEasyButton(easyButton(icon = "fa-globe", 
                            title = "Reset Zoom",
