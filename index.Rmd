@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 28 November 2021"
+date: "Last updated on 2 January 2022"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -58,17 +58,23 @@ Vaccine <- fromJSON(rawToChar(Vaccine_get$content))
 
 Vaccine$date <- as_date(Vaccine$date)
 
-Vaccine <- Vaccine %>% mutate_at(c("population",
-                                   "total_cases", 
-                                   "active_cases", 
-                                   "recovered_cases",
-                                   "deaths",
-                                   "dose_1",
-                                   "dose_2",
-                                   "total_doses_administered",
-                                   "percent_pop_1_plus_dose",
-                                   "percent_pop_fully_immunized"), as.numeric)
+#Vaccine <- Vaccine %>% mutate_at(c("population",
+#                                   "total_cases", 
+#                                   "active_cases", 
+#                                   "recovered_cases",
+#                                   "deaths",
+#                                   "dose_1",
+#                                  "dose_2",
+#                                   "total_doses_administered",
+#                                   "percent_pop_1_plus_dose",
+#                                   "percent_pop_fully_immunized"), as.numeric)
 
+
+Vaccine <- Vaccine %>% mutate_at(c(
+                                   "total_cases",
+                                   "active_cases",
+                                   "recovered_cases",
+                                   "deaths"), as.numeric)
 
 #--------------------------------------------------------------------------------------------------------
 
