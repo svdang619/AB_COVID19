@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 15 January 2022"
+date: "Last updated on 18 January 2022"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -307,7 +307,7 @@ leaflet_geojson_date <- leaflet_geojson$date
 
 
 numeric <- as.numeric(leaflet_geojson$active_cases)
-colbins <- c(0,10,50,75,100,200,400,600)
+colbins <- c(0,10,50,75,100,200,400,600,800,1000)
 col <- colorBin("GnBu", domain = as.numeric(leaflet_geojson$active_cases), bins = colbins)
 
 
