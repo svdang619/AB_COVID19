@@ -1,7 +1,7 @@
 ---
 title: "Alberta COVID19 Dashboard"
 author: "Steven Dang"
-date: "Last updated on 22 February 2022"
+date: "Last updated on 6 March 2022"
 output:
   flexdashboard::flex_dashboard:
     orientation: rows
